@@ -211,13 +211,77 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .polaroid img { 
   width: 140px; height: 140px; object-fit: cover; background: #222; display: block; border-radius: 2px;
 }
-/* Stacking setup */
 .p1 { transform: rotate(-8deg); left: -10px; top: 15px; z-index: 1; }
 .p2 { transform: rotate(10deg); right: -10px; top: -5px; z-index: 2; }
-
 .polaroid:hover { 
   transform: scale(1.15) rotate(0deg); z-index: 10; 
   box-shadow: 0 18px 40px rgba(0,0,0,0.8); 
+}
+
+/* ====================== RETRO TV (VIDEO) ====================== */
+.tv-wrapper { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+.tv-casing {
+  background: linear-gradient(135deg, #2b251d, #1a1610);
+  border: 3px solid var(--gold-faint);
+  border-radius: 28px;
+  padding: 30px 40px 30px 30px;
+  display: flex; gap: 24px;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 25px 50px rgba(0,0,0,0.6);
+  position: relative;
+}
+.tv-screen-bezel {
+  flex: 1;
+  background: #090909;
+  border-radius: 35px 25px 25px 35px;
+  padding: 18px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,1), 0 0 0 2px #332d24;
+  position: relative;
+}
+.tv-screen {
+  position: relative; width: 100%; aspect-ratio: 16 / 9;
+  background: #000; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 0 15px rgba(199,162,74,0.1);
+}
+.tv-screen iframe, .tv-screen video {
+  width: 100%; height: 100%; border: none;
+  position: relative; z-index: 1;
+}
+/* CRT Scanline & Glass reflection */
+.tv-screen::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+  background-size: 100% 4px, 6px 100%;
+  z-index: 2; pointer-events: none;
+}
+.tv-screen::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 45%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.06), transparent);
+  z-index: 3; pointer-events: none; border-radius: 16px 16px 0 0;
+}
+.tv-controls {
+  width: 60px; display: flex; flex-direction: column; align-items: center; gap: 24px; justify-content: center;
+}
+.tv-knob {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: radial-gradient(circle, #3a3227 30%, #111 90%);
+  border: 2px solid #5a4f3e;
+  box-shadow: 0 6px 8px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.1);
+  position: relative; cursor: pointer; transition: transform 0.2s;
+}
+.tv-knob::after {
+  content:''; position:absolute; top:6px; left:20px; width:4px; height:12px; background:var(--gold); border-radius:2px;
+}
+.tv-knob:active { transform: rotate(45deg); }
+.tv-speaker {
+  flex: 1; width: 44px; min-height: 90px;
+  background: repeating-linear-gradient(to bottom, transparent, transparent 4px, rgba(0,0,0,0.6) 4px, rgba(0,0,0,0.6) 8px);
+  border-radius: 4px;
+}
+@media (max-width: 768px) {
+  .tv-casing { flex-direction: column; padding: 20px; border-radius: 20px; }
+  .tv-screen-bezel { border-radius: 20px; padding: 12px; }
+  .tv-controls { width: 100%; flex-direction: row; gap: 30px; }
+  .tv-speaker { min-height: 44px; width: 100%; background: repeating-linear-gradient(to right, transparent, transparent 4px, rgba(0,0,0,0.6) 4px, rgba(0,0,0,0.6) 8px); }
 }
 
 /* ====================== GALLERY ====================== */
@@ -433,6 +497,28 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   <div class="timeline" id="timelineList"></div>
 </section>
 
+<!-- VIDEO (RETRO TV) -->
+<section id="tv-section">
+  <div class="section-head">
+    <span class="eyebrow">Rekaman Memori</span>
+    <h2>Kotak Kaca Masa Lalu</h2>
+  </div>
+  <div class="tv-wrapper">
+    <div class="tv-casing">
+      <div class="tv-screen-bezel">
+        <div class="tv-screen">
+          <iframe id="tvIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="tv-controls">
+        <div class="tv-knob" title="Channel"></div>
+        <div class="tv-knob" title="Volume"></div>
+        <div class="tv-speaker"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- GALLERY -->
 <section id="gallery-section">
   <div class="section-head">
@@ -501,6 +587,14 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
     </div>
 
     <div class="editor-section">
+      <h4>Retro TV (Vidio)</h4>
+      <div class="field">
+        <span class="field-label">Link Video (Otomatis convert link YouTube biasa)</span>
+        <input type="text" id="editTvVideoUrl" placeholder="https://www.youtube.com/watch?v=...">
+      </div>
+    </div>
+
+    <div class="editor-section">
       <h4>Kurva Perjalanan (Timeline & Polaroid)</h4>
       <div id="timelineEditList"></div>
       <button class="btn small" id="addTimelineBtn">+ Tambah Momen</button>
@@ -538,12 +632,13 @@ const JSONBIN_CONFIGURED = CONFIG.JSONBIN_BIN_ID !== "GANTI_DENGAN_BIN_ID" && CO
 const JSONBIN_BASE = `https://api.jsonbin.io/v3/b/${CONFIG.JSONBIN_BIN_ID}`;
 
 /* =========================================================
-   DATA DEFAULT (Disertai Dummy Lofi & Foto Unsplash Aestetik)
+   DATA DEFAULT
    ========================================================= */
 function defaultData(){
   return {
     pinHash: "",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Demo MP3 URL
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 
+    tvVideoUrl: "https://www.youtube.com/watch?v=jfKfPfyJRdk", // Video default (Lofi)
     banner: {
       title: "Jejak <em>Emas</em> Farid",
       subtitle: "Catatan perjalanan dari nol, jatuh, bangun, dan terus melangkah menuju kebebasan finansial."
@@ -588,6 +683,15 @@ function escapeHtml(str){
   const d = document.createElement('div');
   d.textContent = str ?? '';
   return d.innerHTML;
+}
+// Merubah link biasa YouTube menjadi embed
+function getEmbedUrl(url) {
+  if (!url) return "";
+  const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (ytMatch && ytMatch[1]) {
+    return `https://www.youtube.com/embed/${ytMatch[1]}?rel=0`;
+  }
+  return url;
 }
 
 /* =========================================================
@@ -654,14 +758,13 @@ document.getElementById('musicPlayerWidget').addEventListener('click', () => {
   
   if (bgMusic.paused) {
     bgMusic.play().then(() => toggleAudioVisuals(true)).catch(e=>{});
-    audioInitiated = true; // Mark as interacted
+    audioInitiated = true;
   } else {
     bgMusic.pause();
     toggleAudioVisuals(false);
   }
 });
 
-// Autoplay saat interaksi scroll pertama kali
 window.addEventListener('scroll', () => {
   if(!audioInitiated && state.data.audioUrl && window.scrollY > 50) {
     audioInitiated = true;
@@ -673,16 +776,21 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* =========================================================
-   RENDER: HERO
+   RENDER: HERO, VIDEO, TIMELINE
    ========================================================= */
 function renderHero(){
   document.getElementById('bannerTitle').innerHTML = state.data.banner.title;
   document.getElementById('bannerSubtitle').textContent = state.data.banner.subtitle;
 }
 
-/* =========================================================
-   RENDER: EQUITY CURVE
-   ========================================================= */
+function renderTvVideo(){
+  const tvIframe = document.getElementById('tvIframe');
+  const embedUrl = getEmbedUrl(state.data.tvVideoUrl);
+  if (tvIframe.src !== embedUrl) {
+    tvIframe.src = embedUrl;
+  }
+}
+
 function moodY(mood){ return mood==='up' ? 70 : mood==='down' ? 190 : 130; }
 
 function renderCurve(){
@@ -723,21 +831,14 @@ function renderCurve(){
   });
 }
 
-/* =========================================================
-   RENDER: TIMELINE LIST (ZIG-ZAG + POLAROID)
-   ========================================================= */
 function renderTimeline(){
   const el = document.getElementById('timelineList');
-  
-  // Gambar fallback estetik Unsplash agar layout selalu terisi jika belum diset
   const fallbackImg1 = "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=300&q=80";
   const fallbackImg2 = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80";
 
   el.innerHTML = state.data.timeline.map(it => {
-    
     let p1 = it.polaroid1 || fallbackImg1;
     let p2 = it.polaroid2 || fallbackImg2;
-
     let polaroidHTML = `
       <div class="t-visual">
         <div class="polaroids">
@@ -943,6 +1044,7 @@ function buildEditorForm(){
   document.getElementById('editAudioUrl').value = state.data.audioUrl || '';
   document.getElementById('editBannerTitle').value = state.data.banner.title;
   document.getElementById('editBannerSubtitle').value = state.data.banner.subtitle;
+  document.getElementById('editTvVideoUrl').value = state.data.tvVideoUrl || '';
 
   const tList = document.getElementById('timelineEditList');
   tList.innerHTML = state.data.timeline.map((it,i)=>`
@@ -1014,6 +1116,7 @@ function pullEditorFieldsIntoState(){
   state.data.audioUrl = document.getElementById('editAudioUrl').value || state.data.audioUrl;
   state.data.banner.title = document.getElementById('editBannerTitle').value || state.data.banner.title;
   state.data.banner.subtitle = document.getElementById('editBannerSubtitle').value || state.data.banner.subtitle;
+  state.data.tvVideoUrl = document.getElementById('editTvVideoUrl').value || state.data.tvVideoUrl;
 
   document.querySelectorAll('#timelineEditList .editor-card').forEach(card=>{
     const i = +card.dataset.index;
@@ -1040,6 +1143,7 @@ function pullEditorFieldsIntoState(){
 function renderAll(){
   renderHero();
   renderTimeline();
+  renderTvVideo();
   renderGallery();
   initAudio();
 }
