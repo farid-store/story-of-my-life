@@ -124,7 +124,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .section-head h2{font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);}
 .section-head p{color:var(--ink-dim);margin-top:12px;}
 
-/* ====================== EQUITY CURVE (signature) ====================== */
+/* ====================== EQUITY CURVE ====================== */
 .curve-wrap{max-width:900px;margin:0 auto 40px;}
 #curveSvg{width:100%;height:auto;display:block;}
 .curve-path{
@@ -160,7 +160,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .t-item.milestone .t-dot{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim);}
 .t-date{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;}
 .t-title{font-size:1.3rem;color:var(--ink);margin-bottom:8px;}
-.t-content{color:var(--ink-dim);font-size:.96rem;max-width:560px;}
+.t-content{color:var(--ink-dim);font-size:.96rem;max-width:560px;margin-bottom:12px;}
 .t-item{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease;}
 .t-item.visible{opacity:1;transform:translateY(0);}
 .milestone-tag{
@@ -168,6 +168,25 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   color:var(--gold-bright);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
 }
 .milestone-tag::before{content:'◆';}
+
+/* ====================== POLAROID EFFECT ====================== */
+.polaroids { 
+  position: relative; margin-top: 16px; height: 170px; width: 100%; max-width: 300px; display: block; 
+}
+.polaroid { 
+  position: absolute; background: #fff; padding: 6px 6px 20px 6px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s; 
+}
+.polaroid img { 
+  width: 120px; height: 120px; object-fit: cover; background: #222; display: block; 
+}
+.p1 { transform: rotate(-6deg); left: 0; top: 10px; z-index: 1; }
+.p2 { transform: rotate(8deg); left: 75px; top: -5px; z-index: 2; }
+.polaroid:hover { 
+  transform: scale(1.2) rotate(0deg); z-index: 10; 
+  box-shadow: 0 15px 35px rgba(0,0,0,0.8); 
+}
 
 /* ====================== GALLERY ====================== */
 .slider{
@@ -212,18 +231,26 @@ footer{
 footer .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--gold-bright);max-width:600px;margin:0 auto 18px;}
 footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);}
 
-/* ====================== EDIT LOCK BUTTON ====================== */
-#lockBtn{
-  position:fixed;right:22px;bottom:22px;z-index:150;
-  width:48px;height:48px;border-radius:50%;
-  background:var(--panel);border:1px solid var(--gold-dim);
-  color:var(--gold);font-size:18px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(0,0,0,.4);
-  transition:transform .2s;
+/* ====================== FLOATING BUTTONS ====================== */
+.float-btn {
+  position:fixed; bottom:22px; z-index:150;
+  width:48px; height:48px; border-radius:50%;
+  background:var(--panel); border:1px solid var(--gold-dim);
+  color:var(--gold); font-size:18px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.4); transition:transform .2s;
 }
-#lockBtn:hover{transform:scale(1.06);}
-#lockBtn.unlocked{color:var(--emerald);border-color:var(--emerald);}
+.float-btn:hover { transform:scale(1.06); }
+#lockBtn { right:22px; }
+#lockBtn.unlocked { color:var(--emerald); border-color:var(--emerald); }
+#musicBtn { left:22px; font-size:22px; }
+#musicBtn.playing { color:var(--emerald); border-color:var(--emerald); animation: pulse 2s infinite;}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(63, 138, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0); }
+}
 
 /* ====================== MODAL / EDIT PANEL ====================== */
 .overlay{
@@ -258,7 +285,7 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 .btn-row{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;}
 .modal .error{color:var(--rust);font-size:.82rem;margin:-4px 0 12px;display:none;}
 
-/* Edit drawer (fullscreen-ish panel) */
+/* Edit drawer */
 .editor{
   position:fixed;inset:0;z-index:600;background:var(--bg);
   transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.7,.2,1);
@@ -321,6 +348,11 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   <span class="brand" id="navRight">Farid</span>
 </div>
 
+<!-- AUDIO ELEMENT -->
+<audio id="bgMusic" loop>
+  <source id="audioSource" src="" type="audio/mpeg">
+</audio>
+
 <!-- HERO -->
 <section class="hero" id="hero">
   <canvas id="particles"></canvas>
@@ -364,7 +396,9 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   <p class="targets">100 Juta Sebelum 25 Tahun &nbsp;•&nbsp; Kebebasan Finansial Sebelum 30</p>
 </footer>
 
-<button id="lockBtn" title="Mode Edit">🔒</button>
+<!-- FLOATING BUTTONS -->
+<button id="musicBtn" class="float-btn" title="Putar/Jeda Musik">🎵</button>
+<button id="lockBtn" class="float-btn" title="Mode Edit">🔒</button>
 
 <!-- PIN MODAL -->
 <div class="overlay" id="pinOverlay">
@@ -391,11 +425,13 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
     </div>
   </div>
   <div class="editor-body">
-
+    
     <div class="editor-section">
-      <h4>Banner</h4>
+      <h4>Pengaturan Umum (Audio & Banner)</h4>
       <div class="field">
-        <span class="field-label">Judul</span>
+        <span class="field-label">Link Audio Musik Latar (MP3)</span>
+        <input type="text" id="editAudioUrl" placeholder="https://link-lagu.com/musik.mp3">
+        <span class="field-label">Judul Banner</span>
         <input type="text" id="editBannerTitle">
         <span class="field-label">Subjudul</span>
         <textarea id="editBannerSubtitle"></textarea>
@@ -403,13 +439,13 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
     </div>
 
     <div class="editor-section">
-      <h4>Kurva Perjalanan (Timeline)</h4>
+      <h4>Kurva Perjalanan (Timeline & Polaroid)</h4>
       <div id="timelineEditList"></div>
       <button class="btn small" id="addTimelineBtn">+ Tambah Momen</button>
     </div>
 
     <div class="editor-section">
-      <h4>Galeri Foto</h4>
+      <h4>Galeri Foto Utama</h4>
       <div id="photoEditList"></div>
       <button class="btn small" id="addPhotoBtn">+ Tambah Foto</button>
     </div>
@@ -431,10 +467,6 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 <script>
 /* =========================================================
    KONFIGURASI JSONBIN
-   1. Buat akun gratis di https://jsonbin.io
-   2. Buat Bin baru (isi awal: {} ), salin Bin ID nya
-   3. Ambil "Master Key" atau "X-Access-Key" dari dashboard
-   4. Isi dua nilai di bawah ini sebelum deploy ke Vercel
    ========================================================= */
 const CONFIG = {
   JSONBIN_BIN_ID: "6a663429da38895dfe928a41",
@@ -444,12 +476,12 @@ const JSONBIN_CONFIGURED = CONFIG.JSONBIN_BIN_ID !== "GANTI_DENGAN_BIN_ID" && CO
 const JSONBIN_BASE = `https://api.jsonbin.io/v3/b/${CONFIG.JSONBIN_BIN_ID}`;
 
 /* =========================================================
-   DATA DEFAULT (dipakai jika JSONBin belum dikonfigurasi
-   atau saat pertama kali bin masih kosong)
+   DATA DEFAULT
    ========================================================= */
 function defaultData(){
   return {
     pinHash: "",
+    audioUrl: "", // TAMBAHAN: Musik latar
     banner: {
       title: "Jejak Emas Farid",
       subtitle: "Catatan perjalanan dari nol, jatuh, bangun, dan terus melangkah menuju kebebasan finansial."
@@ -460,15 +492,15 @@ function defaultData(){
       {url:"", caption:"Bersama mentor dan partner terbaik"}
     ],
     timeline: [
-      {id:1, date:"2020 — SMP", title:"Awal Berjualan", content:"Mulai berjualan handphone, charger, dan berbagai barang sejak SMP. Titik awal dari perjalanan bisnis yang berjalan lima tahun ke depan.", mood:"neutral", milestone:false},
-      {id:2, date:"18 Tahun — Lulus SMK", title:"10 Juta Pertama", content:"Dari gaji kerja dan hasil jual-beli HP, berhasil mengumpulkan 10 juta pertama. Uang ini dipakai untuk kuliah, demi menaikkan value dan skill.", mood:"up", milestone:true},
-      {id:3, date:"Desember 2024 — 20 Tahun", title:"25 Juta Pertama", content:"Relasi baru di dunia crypto dan forex membawa ke titik tertinggi saat itu: 25 juta pertama, tepat di usia 20 tahun.", mood:"up", milestone:true},
-      {id:4, date:"Juli 2025", title:"Memulai Dari Nol", content:"Semua yang telah dikumpulkan hilang karena kesalahan sendiri. Berjanji tetap bertanggung jawab, berjuang mencapai 100 juta pertama sebelum 25 tahun, dan kebebasan finansial sebelum 30 tahun.", mood:"down", milestone:true},
-      {id:5, date:"Februari 2026", title:"Amunisi Pertama", content:"Berhasil mengumpulkan sebagian gaji sebagai amunisi ke depan — hasil dari cuti kuliah setahun dan double job setiap hari.", mood:"up", milestone:false},
-      {id:6, date:"April 2026", title:"50 Juta Pertama Tahun Ini", content:"Di tengah proses yang berat, tetap dikelilingi orang-orang yang menyayangi: mentor, orang tua, dan saudara. Berhasil mencapai 50 juta pertama di tahun ini.", mood:"up", milestone:true},
-      {id:7, date:"April 2026 — Minggu ke-2", title:"Trading Kembali", content:"Mulai belajar dan trading kembali pelan-pelan. Berhasil mempertahankan modal dan menghasilkan profit yang cukup dalam satu minggu.", mood:"up", milestone:false},
-      {id:8, date:"April 2026 — Akhir Bulan", title:"Badai yang Berlalu", content:"Bulan yang berat, tapi dipercaya sebagai pilihan terbaik menuju sukses. Tugasnya sekarang: kuat, sabar, dan ikhlas menjalani proses.", mood:"neutral", milestone:false},
-      {id:9, date:"Akhir Juli 2026", title:"Mulai Lagi Dari Awal", content:"50 juta hilang, kepercayaan partner sempat pudar, dan hubungan dengan orang tua diuji. Tetap berjanji tidak menyerah — mulai Agustus, satu per satu masalah akan diselesaikan.", mood:"down", milestone:true}
+      {id:1, date:"2020 — SMP", title:"Awal Berjualan", content:"Mulai berjualan handphone, charger, dan berbagai barang sejak SMP. Titik awal dari perjalanan bisnis yang berjalan lima tahun ke depan.", mood:"neutral", milestone:false, polaroid1:"", polaroid2:""},
+      {id:2, date:"18 Tahun — Lulus SMK", title:"10 Juta Pertama", content:"Dari gaji kerja dan hasil jual-beli HP, berhasil mengumpulkan 10 juta pertama. Uang ini dipakai untuk kuliah, demi menaikkan value dan skill.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:3, date:"Desember 2024 — 20 Tahun", title:"25 Juta Pertama", content:"Relasi baru di dunia crypto dan forex membawa ke titik tertinggi saat itu: 25 juta pertama, tepat di usia 20 tahun.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:4, date:"Juli 2025", title:"Memulai Dari Nol", content:"Semua yang telah dikumpulkan hilang karena kesalahan sendiri. Berjanji tetap bertanggung jawab, berjuang mencapai 100 juta pertama sebelum 25 tahun, dan kebebasan finansial sebelum 30 tahun.", mood:"down", milestone:true, polaroid1:"", polaroid2:""},
+      {id:5, date:"Februari 2026", title:"Amunisi Pertama", content:"Berhasil mengumpulkan sebagian gaji sebagai amunisi ke depan — hasil dari cuti kuliah setahun dan double job setiap hari.", mood:"up", milestone:false, polaroid1:"", polaroid2:""},
+      {id:6, date:"April 2026", title:"50 Juta Pertama Tahun Ini", content:"Di tengah proses yang berat, tetap dikelilingi orang-orang yang menyayangi: mentor, orang tua, dan saudara. Berhasil mencapai 50 juta pertama di tahun ini.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:7, date:"April 2026 — Minggu ke-2", title:"Trading Kembali", content:"Mulai belajar dan trading kembali pelan-pelan. Berhasil mempertahankan modal dan menghasilkan profit yang cukup dalam satu minggu.", mood:"up", milestone:false, polaroid1:"", polaroid2:""},
+      {id:8, date:"April 2026 — Akhir Bulan", title:"Badai yang Berlalu", content:"Bulan yang berat, tapi dipercaya sebagai pilihan terbaik menuju sukses. Tugasnya sekarang: kuat, sabar, dan ikhlas menjalani proses.", mood:"neutral", milestone:false, polaroid1:"", polaroid2:""},
+      {id:9, date:"Akhir Juli 2026", title:"Mulai Lagi Dari Awal", content:"50 juta hilang, kepercayaan partner sempat pudar, dan hubungan dengan orang tua diuji. Tetap berjanji tidak menyerah — mulai Agustus, satu per satu masalah akan diselesaikan.", mood:"down", milestone:true, polaroid1:"", polaroid2:""}
     ]
   };
 }
@@ -500,29 +532,20 @@ function escapeHtml(str){
    JSONBIN I/O
    ========================================================= */
 async function loadData(){
-  if(!JSONBIN_CONFIGURED){
-    console.warn("JSONBin belum dikonfigurasi — memakai data default sementara.");
-    return;
-  }
+  if(!JSONBIN_CONFIGURED){ return; }
   try{
-    const res = await fetch(`${JSONBIN_BASE}/latest`, {
-      headers: { 'X-Master-Key': CONFIG.JSONBIN_API_KEY }
-    });
+    const res = await fetch(`${JSONBIN_BASE}/latest`, { headers: { 'X-Master-Key': CONFIG.JSONBIN_API_KEY } });
     if(!res.ok) throw new Error('fetch failed');
     const json = await res.json();
     const record = json.record;
     if(record && record.timeline){
-      state.data = record;
+      // Gabungkan struktur default jika ada key baru yg kosong di server
+      state.data = { ...defaultData(), ...record }; 
     }
-  }catch(err){
-    console.warn("Gagal memuat dari JSONBin, memakai data default.", err);
-  }
+  }catch(err){}
 }
 async function saveData(){
-  if(!JSONBIN_CONFIGURED){
-    toast("JSONBin belum dikonfigurasi — perubahan tidak akan tersimpan permanen.");
-    return false;
-  }
+  if(!JSONBIN_CONFIGURED){ toast("JSONBin belum dikonfigurasi."); return false; }
   try{
     const res = await fetch(JSONBIN_BASE, {
       method:'PUT',
@@ -533,17 +556,54 @@ async function saveData(){
     toast("Tersimpan.");
     return true;
   }catch(err){
-    console.error(err);
     toast("Gagal menyimpan. Cek Bin ID / API Key.");
     return false;
   }
 }
 
 /* =========================================================
+   AUDIO & AUTOPLAY LOGIC
+   ========================================================= */
+let audioInitiated = false;
+
+function initAudio() {
+  const bgMusic = document.getElementById('bgMusic');
+  const source = document.getElementById('audioSource');
+  if(state.data.audioUrl && source.src !== state.data.audioUrl) {
+    source.src = state.data.audioUrl;
+    bgMusic.load();
+  }
+}
+
+document.getElementById('musicBtn').addEventListener('click', () => {
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  if(!state.data.audioUrl) { toast("Belum ada link musik yang di-set di mode Edit."); return; }
+  
+  if (bgMusic.paused) {
+    bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(e=>{});
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.remove('playing');
+  }
+});
+
+// Autoplay saat interaksi klik pertama kali (kebijakan browser)
+document.body.addEventListener('click', () => {
+  if(!audioInitiated && state.data.audioUrl) {
+    audioInitiated = true;
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.play().then(() => {
+      document.getElementById('musicBtn').classList.add('playing');
+    }).catch(e => console.log('Autoplay audio dicegah oleh browser.'));
+  }
+}, {once: true});
+
+/* =========================================================
    RENDER: HERO
    ========================================================= */
 function renderHero(){
-  document.getElementById('bannerTitle').textContent = state.data.banner.title;
+  document.getElementById('bannerTitle').innerHTML = state.data.banner.title;
   document.getElementById('bannerSubtitle').textContent = state.data.banner.subtitle;
 }
 
@@ -591,22 +651,39 @@ function renderCurve(){
 }
 
 /* =========================================================
-   RENDER: TIMELINE LIST
+   RENDER: TIMELINE LIST (DENGAN POLAROID)
    ========================================================= */
 function renderTimeline(){
   const el = document.getElementById('timelineList');
-  el.innerHTML = state.data.timeline.map(it => `
-    <div class="t-item ${it.milestone ? 'milestone':''}" data-mood="${it.mood}">
-      <span class="t-dot"></span>
-      ${it.milestone ? '<span class="milestone-tag">Milestone</span>' : ''}
-      <span class="t-date">${escapeHtml(it.date)}</span>
-      <h3 class="t-title">${escapeHtml(it.title)}</h3>
-      <p class="t-content">${escapeHtml(it.content)}</p>
-    </div>
-  `).join('');
+  el.innerHTML = state.data.timeline.map(it => {
+    
+    // Injeksi HTML Polaroid jika ada URL-nya
+    let polaroidHTML = '';
+    if(it.polaroid1 || it.polaroid2) {
+      polaroidHTML = `
+        <div class="polaroids">
+          ${it.polaroid1 ? `<div class="polaroid p1"><img src="${escapeHtml(it.polaroid1)}" alt="Foto Momen"></div>` : ''}
+          ${it.polaroid2 ? `<div class="polaroid p2"><img src="${escapeHtml(it.polaroid2)}" alt="Foto Momen"></div>` : ''}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="t-item ${it.milestone ? 'milestone':''}" data-mood="${it.mood}">
+        <span class="t-dot"></span>
+        ${it.milestone ? '<span class="milestone-tag">Milestone</span>' : ''}
+        <span class="t-date">${escapeHtml(it.date)}</span>
+        <h3 class="t-title">${escapeHtml(it.title)}</h3>
+        <p class="t-content">${escapeHtml(it.content)}</p>
+        ${polaroidHTML}
+      </div>
+    `;
+  }).join('');
+  
   observeReveal();
   renderCurve();
 }
+
 function observeReveal(){
   const items = document.querySelectorAll('.t-item');
   const obs = new IntersectionObserver((entries)=>{
@@ -663,6 +740,7 @@ document.getElementById('nextBtn').addEventListener('click', ()=>{
   const total = state.data.photos.length; if(total===0) return;
   sliderIndex = (sliderIndex+1)%total; updateSlider(); restartAutoplay();
 });
+
 // swipe support
 (function(){
   let startX=0;
@@ -793,6 +871,7 @@ function openEditor(){
 
 /* ---- build editable form from state.data ---- */
 function buildEditorForm(){
+  document.getElementById('editAudioUrl').value = state.data.audioUrl || '';
   document.getElementById('editBannerTitle').value = state.data.banner.title;
   document.getElementById('editBannerSubtitle').value = state.data.banner.subtitle;
 
@@ -806,15 +885,22 @@ function buildEditorForm(){
       <input type="text" class="t-title-field" value="${escapeHtml(it.title)}">
       <span class="field-label">Cerita</span>
       <textarea class="t-content-field">${escapeHtml(it.content)}</textarea>
+      
       <span class="field-label">Suasana (untuk kurva)</span>
       <select class="t-mood-field">
         <option value="up" ${it.mood==='up'?'selected':''}>Naik</option>
         <option value="neutral" ${it.mood==='neutral'?'selected':''}>Netral</option>
         <option value="down" ${it.mood==='down'?'selected':''}>Turun</option>
       </select>
-      <label style="display:flex;align-items:center;gap:8px;color:var(--ink-dim);font-size:.85rem;margin-bottom:4px;">
+      
+      <label style="display:flex;align-items:center;gap:8px;color:var(--ink-dim);font-size:.85rem;margin-bottom:12px;">
         <input type="checkbox" class="t-milestone-field" ${it.milestone?'checked':''} style="width:auto;margin:0;"> Tandai sebagai milestone
       </label>
+
+      <span class="field-label">Foto Polaroid 1 (Opsional - URL)</span>
+      <input type="text" class="t-p1-field" value="${escapeHtml(it.polaroid1 || '')}" placeholder="https://...">
+      <span class="field-label">Foto Polaroid 2 (Opsional - URL)</span>
+      <input type="text" class="t-p2-field" value="${escapeHtml(it.polaroid2 || '')}" placeholder="https://...">
     </div>
   `).join('');
 
@@ -839,7 +925,7 @@ function buildEditorForm(){
 
 document.getElementById('addTimelineBtn').addEventListener('click', ()=>{
   pullEditorFieldsIntoState();
-  state.data.timeline.push({ id: Date.now(), date:'Tanggal', title:'Momen Baru', content:'Ceritakan momen ini...', mood:'neutral', milestone:false });
+  state.data.timeline.push({ id: Date.now(), date:'Tanggal', title:'Momen Baru', content:'Ceritakan momen ini...', mood:'neutral', milestone:false, polaroid1:'', polaroid2:'' });
   buildEditorForm();
 });
 document.getElementById('addPhotoBtn').addEventListener('click', ()=>{
@@ -857,6 +943,7 @@ document.getElementById('changePinBtn').addEventListener('click', async ()=>{
 
 /* read current editor DOM back into state.data before save/rebuild */
 function pullEditorFieldsIntoState(){
+  state.data.audioUrl = document.getElementById('editAudioUrl').value || state.data.audioUrl;
   state.data.banner.title = document.getElementById('editBannerTitle').value || state.data.banner.title;
   state.data.banner.subtitle = document.getElementById('editBannerSubtitle').value || state.data.banner.subtitle;
 
@@ -868,6 +955,8 @@ function pullEditorFieldsIntoState(){
     state.data.timeline[i].content = card.querySelector('.t-content-field').value;
     state.data.timeline[i].mood = card.querySelector('.t-mood-field').value;
     state.data.timeline[i].milestone = card.querySelector('.t-milestone-field').checked;
+    state.data.timeline[i].polaroid1 = card.querySelector('.t-p1-field').value;
+    state.data.timeline[i].polaroid2 = card.querySelector('.t-p2-field').value;
   });
   document.querySelectorAll('#photoEditList .editor-card').forEach(card=>{
     const i = +card.dataset.index;
@@ -884,6 +973,7 @@ function renderAll(){
   renderHero();
   renderTimeline();
   renderGallery();
+  initAudio();
 }
 (async function init(){
   await loadData();
