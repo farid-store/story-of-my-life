@@ -140,52 +140,84 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .curve-node:hover{r:7;}
 .curve-label{font-family:var(--mono);font-size:10px;fill:var(--ink-faint);}
 
-/* ====================== TIMELINE LIST ====================== */
-.timeline{max-width:720px;margin:0 auto;position:relative;}
+/* ====================== TIMELINE LIST (ZIG-ZAG) ====================== */
+.timeline{max-width:900px;margin:0 auto;position:relative; padding-bottom: 40px;}
 .timeline::before{
-  content:'';position:absolute;left:9px;top:6px;bottom:6px;width:1px;
+  content:'';position:absolute;left:13px;top:6px;bottom:6px;width:1px;
   background:linear-gradient(var(--gold-dim),transparent 95%);
 }
-.t-item{position:relative;padding-left:42px;margin-bottom:44px;}
+
+.t-item{
+  position:relative;margin-bottom:80px;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.t-item.visible{opacity:1;transform:translateY(0);}
+
 .t-dot{
-  position:absolute;left:0;top:4px;width:20px;height:20px;border-radius:50%;
+  position:absolute;left:0;top:10px;width:26px;height:26px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg-alt);border:1.5px solid var(--ink-faint);
+  background:var(--bg);border:2px solid var(--ink-faint); z-index: 5;
 }
 .t-item[data-mood="up"] .t-dot{border-color:var(--emerald);}
 .t-item[data-mood="down"] .t-dot{border-color:var(--rust);}
-.t-item[data-mood="up"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--emerald);}
-.t-item[data-mood="down"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--rust);}
-.t-item[data-mood="neutral"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--ink-faint);}
-.t-item.milestone .t-dot{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim);}
-.t-date{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;}
-.t-title{font-size:1.3rem;color:var(--ink);margin-bottom:8px;}
-.t-content{color:var(--ink-dim);font-size:.96rem;max-width:560px;margin-bottom:12px;}
-.t-item{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease;}
-.t-item.visible{opacity:1;transform:translateY(0);}
+.t-item[data-mood="up"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--emerald);}
+.t-item[data-mood="down"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--rust);}
+.t-item[data-mood="neutral"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
+.t-item.milestone .t-dot{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-dim);}
+
+.t-content-wrapper {
+  display: flex; flex-direction: column; gap: 30px;
+  padding-left: 50px;
+}
+.t-text { flex: 1; }
+.t-visual { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+.t-date{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
+.t-title{font-size:1.4rem;color:var(--ink);margin-bottom:12px;}
+.t-content{color:var(--ink-dim);font-size:1rem;line-height: 1.7;}
 .milestone-tag{
   display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
   color:var(--gold-bright);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
 }
 .milestone-tag::before{content:'◆';}
 
+/* Desktop Zig-Zag Layout */
+@media (min-width: 768px) {
+  .timeline::before { left: 50%; transform: translateX(-50%); }
+  .t-dot { left: 50%; transform: translateX(-50%); }
+  .t-content-wrapper { flex-direction: row; align-items: center; padding-left: 0; width: 100%; gap: 60px; }
+  
+  /* Odd Items: Text Left, Image Right */
+  .t-item:nth-child(odd) .t-content-wrapper { flex-direction: row; }
+  .t-item:nth-child(odd) .t-text { text-align: right; padding-right: 30px; }
+  .t-item:nth-child(odd) .t-visual { padding-left: 30px; justify-content: flex-start; }
+  
+  /* Even Items: Image Left, Text Right */
+  .t-item:nth-child(even) .t-content-wrapper { flex-direction: row-reverse; }
+  .t-item:nth-child(even) .t-text { text-align: left; padding-left: 30px; }
+  .t-item:nth-child(even) .t-visual { padding-right: 30px; justify-content: flex-end; }
+}
+
 /* ====================== POLAROID EFFECT ====================== */
 .polaroids { 
-  position: relative; margin-top: 16px; height: 170px; width: 100%; max-width: 300px; display: block; 
+  position: relative; width: 220px; height: 230px; display: block; 
 }
 .polaroid { 
-  position: absolute; background: #fff; padding: 6px 6px 20px 6px; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 2px;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s; 
+  position: absolute; background: #fafafa; padding: 10px 10px 32px 10px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5); border-radius: 4px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, z-index 0s; 
 }
 .polaroid img { 
-  width: 120px; height: 120px; object-fit: cover; background: #222; display: block; 
+  width: 140px; height: 140px; object-fit: cover; background: #222; display: block; border-radius: 2px;
 }
-.p1 { transform: rotate(-6deg); left: 0; top: 10px; z-index: 1; }
-.p2 { transform: rotate(8deg); left: 75px; top: -5px; z-index: 2; }
+/* Stacking setup */
+.p1 { transform: rotate(-8deg); left: -10px; top: 15px; z-index: 1; }
+.p2 { transform: rotate(10deg); right: -10px; top: -5px; z-index: 2; }
+
 .polaroid:hover { 
-  transform: scale(1.2) rotate(0deg); z-index: 10; 
-  box-shadow: 0 15px 35px rgba(0,0,0,0.8); 
+  transform: scale(1.15) rotate(0deg); z-index: 10; 
+  box-shadow: 0 18px 40px rgba(0,0,0,0.8); 
 }
 
 /* ====================== GALLERY ====================== */
@@ -231,7 +263,7 @@ footer{
 footer .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--gold-bright);max-width:600px;margin:0 auto 18px;}
 footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);}
 
-/* ====================== FLOATING BUTTONS ====================== */
+/* ====================== FLOATING BUTTONS & MUSIC WIDGET ====================== */
 .float-btn {
   position:fixed; bottom:22px; z-index:150;
   width:48px; height:48px; border-radius:50%;
@@ -243,13 +275,46 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 .float-btn:hover { transform:scale(1.06); }
 #lockBtn { right:22px; }
 #lockBtn.unlocked { color:var(--emerald); border-color:var(--emerald); }
-#musicBtn { left:22px; font-size:22px; }
-#musicBtn.playing { color:var(--emerald); border-color:var(--emerald); animation: pulse 2s infinite;}
 
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(63, 138, 113, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0); }
+/* Custom Vintage Music Player */
+.music-player {
+  position: fixed; bottom: 22px; left: 22px; z-index: 150;
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(27, 23, 18, 0.85); backdrop-filter: blur(8px);
+  border: 1px solid var(--gold-dim); padding: 8px 20px 8px 8px; 
+  border-radius: 50px; box-shadow: 0 6px 20px rgba(0,0,0,.5);
+  cursor: pointer; transition: all 0.3s ease;
+}
+.music-player:hover { border-color: var(--gold); transform: translateY(-3px); }
+.vinyl {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: repeating-radial-gradient(#111 0%, #111 10%, #222 12%, #111 14%);
+  border: 2px solid #333; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.vinyl::after {
+  content: ''; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--gold); border: 2px solid #000;
+}
+.vinyl.playing { animation: vinylSpin 3s linear infinite; }
+@keyframes vinylSpin { 100% { transform: rotate(360deg); } }
+
+.spectrum {
+  display: flex; gap: 4px; height: 18px; align-items: flex-end; opacity: 0.4;
+}
+.spectrum.playing { opacity: 1; }
+.spectrum span {
+  width: 3px; background: var(--gold-bright); border-radius: 2px; height: 4px;
+}
+.spectrum.playing span { animation: eq 1s ease-in-out infinite alternate; }
+.spectrum span:nth-child(1) { animation-delay: 0.1s; }
+.spectrum span:nth-child(2) { animation-delay: 0.3s; }
+.spectrum span:nth-child(3) { animation-delay: 0.0s; }
+.spectrum span:nth-child(4) { animation-delay: 0.4s; }
+.spectrum span:nth-child(5) { animation-delay: 0.2s; }
+@keyframes eq { 
+  0% { height: 4px; } 
+  100% { height: 100%; } 
 }
 
 /* ====================== MODAL / EDIT PANEL ====================== */
@@ -328,15 +393,6 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   opacity:0;transition:.3s;pointer-events:none;
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-@media (max-width:640px){
-  section{padding:70px 18px;}
-  .hero{padding-top:100px;}
-}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto;}
-  .t-item, .curve-path, .curve-fill{transition:none !important;}
-}
 </style>
 </head>
 <body>
@@ -397,7 +453,13 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 </footer>
 
 <!-- FLOATING BUTTONS -->
-<button id="musicBtn" class="float-btn" title="Putar/Jeda Musik">🎵</button>
+<div id="musicPlayerWidget" class="music-player" title="Putar/Jeda Musik">
+  <div class="vinyl" id="vinylDisc"></div>
+  <div class="spectrum" id="spectrumAnim">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
 <button id="lockBtn" class="float-btn" title="Mode Edit">🔒</button>
 
 <!-- PIN MODAL -->
@@ -476,14 +538,14 @@ const JSONBIN_CONFIGURED = CONFIG.JSONBIN_BIN_ID !== "GANTI_DENGAN_BIN_ID" && CO
 const JSONBIN_BASE = `https://api.jsonbin.io/v3/b/${CONFIG.JSONBIN_BIN_ID}`;
 
 /* =========================================================
-   DATA DEFAULT
+   DATA DEFAULT (Disertai Dummy Lofi & Foto Unsplash Aestetik)
    ========================================================= */
 function defaultData(){
   return {
     pinHash: "",
-    audioUrl: "", // TAMBAHAN: Musik latar
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Demo MP3 URL
     banner: {
-      title: "Jejak Emas Farid",
+      title: "Jejak <em>Emas</em> Farid",
       subtitle: "Catatan perjalanan dari nol, jatuh, bangun, dan terus melangkah menuju kebebasan finansial."
     },
     photos: [
@@ -539,7 +601,6 @@ async function loadData(){
     const json = await res.json();
     const record = json.record;
     if(record && record.timeline){
-      // Gabungkan struktur default jika ada key baru yg kosong di server
       state.data = { ...defaultData(), ...record }; 
     }
   }catch(err){}
@@ -575,29 +636,41 @@ function initAudio() {
   }
 }
 
-document.getElementById('musicBtn').addEventListener('click', () => {
+function toggleAudioVisuals(isPlaying) {
+  const vinyl = document.getElementById('vinylDisc');
+  const spectrum = document.getElementById('spectrumAnim');
+  if(isPlaying) {
+    vinyl.classList.add('playing');
+    spectrum.classList.add('playing');
+  } else {
+    vinyl.classList.remove('playing');
+    spectrum.classList.remove('playing');
+  }
+}
+
+document.getElementById('musicPlayerWidget').addEventListener('click', () => {
   const bgMusic = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('musicBtn');
   if(!state.data.audioUrl) { toast("Belum ada link musik yang di-set di mode Edit."); return; }
   
   if (bgMusic.paused) {
-    bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(e=>{});
+    bgMusic.play().then(() => toggleAudioVisuals(true)).catch(e=>{});
+    audioInitiated = true; // Mark as interacted
   } else {
     bgMusic.pause();
-    musicBtn.classList.remove('playing');
+    toggleAudioVisuals(false);
   }
 });
 
-// Autoplay saat interaksi klik pertama kali (kebijakan browser)
-document.body.addEventListener('click', () => {
-  if(!audioInitiated && state.data.audioUrl) {
+// Autoplay saat interaksi scroll pertama kali
+window.addEventListener('scroll', () => {
+  if(!audioInitiated && state.data.audioUrl && window.scrollY > 50) {
     audioInitiated = true;
     const bgMusic = document.getElementById('bgMusic');
     bgMusic.play().then(() => {
-      document.getElementById('musicBtn').classList.add('playing');
-    }).catch(e => console.log('Autoplay audio dicegah oleh browser.'));
+      toggleAudioVisuals(true);
+    }).catch(e => console.log('Autoplay audio dicegah oleh browser. Harus diklik manual.'));
   }
-}, {once: true});
+}, { passive: true });
 
 /* =========================================================
    RENDER: HERO
@@ -651,31 +724,41 @@ function renderCurve(){
 }
 
 /* =========================================================
-   RENDER: TIMELINE LIST (DENGAN POLAROID)
+   RENDER: TIMELINE LIST (ZIG-ZAG + POLAROID)
    ========================================================= */
 function renderTimeline(){
   const el = document.getElementById('timelineList');
+  
+  // Gambar fallback estetik Unsplash agar layout selalu terisi jika belum diset
+  const fallbackImg1 = "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=300&q=80";
+  const fallbackImg2 = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80";
+
   el.innerHTML = state.data.timeline.map(it => {
     
-    // Injeksi HTML Polaroid jika ada URL-nya
-    let polaroidHTML = '';
-    if(it.polaroid1 || it.polaroid2) {
-      polaroidHTML = `
+    let p1 = it.polaroid1 || fallbackImg1;
+    let p2 = it.polaroid2 || fallbackImg2;
+
+    let polaroidHTML = `
+      <div class="t-visual">
         <div class="polaroids">
-          ${it.polaroid1 ? `<div class="polaroid p1"><img src="${escapeHtml(it.polaroid1)}" alt="Foto Momen"></div>` : ''}
-          ${it.polaroid2 ? `<div class="polaroid p2"><img src="${escapeHtml(it.polaroid2)}" alt="Foto Momen"></div>` : ''}
+          <div class="polaroid p1"><img src="${escapeHtml(p1)}" alt="Foto Perjalanan"></div>
+          <div class="polaroid p2"><img src="${escapeHtml(p2)}" alt="Foto Perjalanan"></div>
         </div>
-      `;
-    }
+      </div>
+    `;
 
     return `
       <div class="t-item ${it.milestone ? 'milestone':''}" data-mood="${it.mood}">
         <span class="t-dot"></span>
-        ${it.milestone ? '<span class="milestone-tag">Milestone</span>' : ''}
-        <span class="t-date">${escapeHtml(it.date)}</span>
-        <h3 class="t-title">${escapeHtml(it.title)}</h3>
-        <p class="t-content">${escapeHtml(it.content)}</p>
-        ${polaroidHTML}
+        <div class="t-content-wrapper">
+          <div class="t-text">
+            ${it.milestone ? '<span class="milestone-tag">Milestone</span>' : ''}
+            <span class="t-date">${escapeHtml(it.date)}</span>
+            <h3 class="t-title">${escapeHtml(it.title)}</h3>
+            <p class="t-content">${escapeHtml(it.content)}</p>
+          </div>
+          ${polaroidHTML}
+        </div>
       </div>
     `;
   }).join('');
@@ -688,7 +771,7 @@ function observeReveal(){
   const items = document.querySelectorAll('.t-item');
   const obs = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold:0.2 });
+  }, { threshold:0.15 });
   items.forEach(i=>obs.observe(i));
 }
 
@@ -740,19 +823,6 @@ document.getElementById('nextBtn').addEventListener('click', ()=>{
   const total = state.data.photos.length; if(total===0) return;
   sliderIndex = (sliderIndex+1)%total; updateSlider(); restartAutoplay();
 });
-
-// swipe support
-(function(){
-  let startX=0;
-  const el = document.getElementById('slider');
-  el.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; });
-  el.addEventListener('touchend', e=>{
-    const dx = e.changedTouches[0].clientX - startX;
-    const total = state.data.photos.length; if(total===0) return;
-    if(dx > 50){ sliderIndex = (sliderIndex-1+total)%total; updateSlider(); restartAutoplay(); }
-    else if(dx < -50){ sliderIndex = (sliderIndex+1)%total; updateSlider(); restartAutoplay(); }
-  });
-})();
 
 /* =========================================================
    PARTICLES (gold dust)
@@ -869,7 +939,6 @@ function openEditor(){
   editor.classList.add('show');
 }
 
-/* ---- build editable form from state.data ---- */
 function buildEditorForm(){
   document.getElementById('editAudioUrl').value = state.data.audioUrl || '';
   document.getElementById('editBannerTitle').value = state.data.banner.title;
@@ -898,9 +967,9 @@ function buildEditorForm(){
       </label>
 
       <span class="field-label">Foto Polaroid 1 (Opsional - URL)</span>
-      <input type="text" class="t-p1-field" value="${escapeHtml(it.polaroid1 || '')}" placeholder="https://...">
+      <input type="text" class="t-p1-field" value="${escapeHtml(it.polaroid1 || '')}" placeholder="Kosong = Gambar Estetik Otomatis">
       <span class="field-label">Foto Polaroid 2 (Opsional - URL)</span>
-      <input type="text" class="t-p2-field" value="${escapeHtml(it.polaroid2 || '')}" placeholder="https://...">
+      <input type="text" class="t-p2-field" value="${escapeHtml(it.polaroid2 || '')}" placeholder="Kosong = Gambar Estetik Otomatis">
     </div>
   `).join('');
 
@@ -941,7 +1010,6 @@ document.getElementById('changePinBtn').addEventListener('click', async ()=>{
   toast('PIN diperbarui. Klik "Simpan ke JSONBin" untuk menyimpan permanen.');
 });
 
-/* read current editor DOM back into state.data before save/rebuild */
 function pullEditorFieldsIntoState(){
   state.data.audioUrl = document.getElementById('editAudioUrl').value || state.data.audioUrl;
   state.data.banner.title = document.getElementById('editBannerTitle').value || state.data.banner.title;
