@@ -6,337 +6,332 @@
 <title>Jejak Emas — Perjalanan Farid</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Menggunakan font bergaya tech/modern dan clean -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ====================== TOKENS (MIDNIGHT TERMINAL THEME) ====================== */
-:root {
-  --bg: #05070A; /* Deep Obsidian */
-  --bg-alt: #0D1117; /* Dark Panel */
-  --panel: rgba(13, 17, 23, 0.85);
-  --ink: #F8FAFC; /* Crisp White */
-  --ink-dim: #94A3B8; /* Slate Gray */
-  --ink-faint: #475569;
-  
-  /* Trading Colors */
-  --accent: #00F0FF; /* Neon Cyan */
-  --accent-dim: rgba(0, 240, 255, 0.15);
-  --up: #10B981; /* Bullish Green */
-  --down: #EF4444; /* Bearish Red */
-  --gold: #F59E0B; /* Milestone Amber/Gold */
-  
-  --radius: 4px; /* Sudut tajam, tech-style */
-  --display: 'Space Grotesk', sans-serif;
-  --sans: 'Inter', sans-serif;
+/* ====================== TOKENS ====================== */
+:root{
+  --bg:#0e0d0b;
+  --bg-alt:#161310;
+  --panel:#1b1712;
+  --ink:#ede6d6;
+  --ink-dim:#a79c87;
+  --ink-faint:#6f6656;
+  --gold:#c7a24a;
+  --gold-bright:#e4c77a;
+  --gold-dim:rgba(199,162,74,0.25);
+  --emerald:#3f8a71;
+  --rust:#a1543f;
+  --radius:14px;
+  --serif:'Fraunces', serif;
+  --sans:'Manrope', sans-serif;
+  --mono:'JetBrains Mono', monospace;
 }
-
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-  margin:0; background: var(--bg); color: var(--ink);
-  font-family: var(--sans); line-height: 1.7; overflow-x: hidden;
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.6;
+  overflow-x:hidden;
 }
 img{max-width:100%;display:block;}
 button{font-family:inherit;cursor:pointer;}
-::selection{background:var(--accent);color:#000;}
-h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0; letter-spacing: -0.02em;}
+::selection{background:var(--gold-dim);color:var(--gold-bright);}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;}
+a{color:var(--gold-bright);}
 
-/* Background Grid (Trading Terminal Vibe) */
+/* subtle grain texture */
 body::before{
-  content:''; position:fixed; inset:0; z-index:-2;
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-/* Subtle Glow */
-body::after{
-  content:''; position:fixed; inset:0; z-index:-1;
-  background: radial-gradient(circle at 50% 0%, rgba(0,240,255,0.05), transparent 50%);
-  pointer-events: none;
+  content:'';
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:2000;
+  opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
 }
 
 /* ====================== LOADER ====================== */
 #loader{
   position:fixed;inset:0;background:var(--bg);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:3000;transition:opacity .5s, visibility .5s; gap:16px;
+  z-index:3000;transition:opacity .6s ease, visibility .6s ease;
+  gap:18px;
 }
 #loader.hide{opacity:0;visibility:hidden;}
-.loader-core {
-  width: 50px; height: 50px; border: 2px solid var(--ink-faint);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 1s linear infinite;
+.coin{
+  width:56px;height:56px;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);color:var(--gold-bright);font-size:22px;
+  animation:spin 1.8s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-#loader p{color:var(--accent);font-family:var(--display);font-size:12px;letter-spacing:0.3em;text-transform:uppercase;}
+@keyframes spin{
+  0%{transform:rotateY(0deg);}
+  100%{transform:rotateY(360deg);}
+}
+#loader p{color:var(--ink-dim);font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;}
 
 /* ====================== NAV ====================== */
 .topbar{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;justify-content:space-between;align-items:center;
   padding:20px clamp(20px,5vw,56px);
-  background: linear-gradient(to bottom, var(--bg), transparent);
-  backdrop-filter: blur(5px);
+  mix-blend-mode:difference;
 }
-.brand{font-family:var(--display);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);}
-.brand span { color: var(--accent); font-weight: 700; }
+.brand{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);}
 
 /* ====================== HERO ====================== */
 .hero{
   position:relative;min-height:100vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:120px 20px 80px; overflow:hidden;
+  text-align:center;padding:120px 20px 80px;
+  overflow:hidden;
 }
 #particles{position:absolute;inset:0;z-index:0;}
 .hero-inner{position:relative;z-index:1;max-width:800px;}
 .eyebrow{
-  font-family:var(--display);font-size:11px;letter-spacing:0.4em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:20px;display:inline-block;
-  background: var(--accent-dim); padding: 6px 16px; border-radius: 100px;
-  border: 1px solid rgba(0,240,255,0.3);
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;display:inline-block;
+  border:1px solid var(--gold-dim);padding:6px 14px;border-radius:100px;
 }
 .hero h1{
-  font-size:clamp(2.5rem,7vw,5rem); text-transform: uppercase;
-  color:var(--ink); margin-bottom:20px; line-height: 1.1;
-  text-shadow: 0 0 40px rgba(0,240,255,0.2);
+  font-size:clamp(2.4rem,7vw,5rem);
+  font-weight:400;letter-spacing:-0.01em;
+  color:var(--ink);
+  margin-bottom:22px;
 }
-.hero h1 em{
-  font-style:normal; color:transparent; 
-  -webkit-text-stroke: 1px var(--accent);
-}
+.hero h1 em{font-style:italic;color:var(--gold-bright);font-weight:300;}
 .hero p.subtitle{
   color:var(--ink-dim);font-size:clamp(1rem,2vw,1.15rem);
-  max-width:600px;margin:0 auto; font-weight: 300;
+  max-width:560px;margin:0 auto;
 }
 .scroll-cue{
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  color:var(--ink-faint);font-family:var(--display);font-size:10px;letter-spacing:0.2em;
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.15em;
+  animation:bob 2.4s ease-in-out infinite;
 }
-.scroll-cue .line{
-  width:1px;height:40px;background:linear-gradient(var(--accent),transparent);
-  animation: scaleY 2s infinite; transform-origin: top;
-}
-@keyframes scaleY { 0%{transform:scaleY(0);} 50%{transform:scaleY(1);} 100%{transform:scaleY(0); opacity:0;} }
+@keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
+.scroll-cue .line{width:1px;height:28px;background:linear-gradient(var(--gold),transparent);}
 
 /* ====================== SECTION SHELL ====================== */
 section{padding:100px clamp(20px,6vw,56px);position:relative;}
-.section-head{max-width:640px;margin:0 auto 70px;text-align:center;}
-.section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);color:var(--ink); text-transform: uppercase;}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+.section-head .eyebrow{margin-bottom:14px;}
+.section-head h2{font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);}
 .section-head p{color:var(--ink-dim);margin-top:12px;}
 
-/* ====================== EQUITY CURVE (CHART STYLE) ====================== */
-.curve-wrap{max-width:900px;margin:0 auto 50px; position: relative;}
-#curveSvg{width:100%;height:auto;display:block; filter: drop-shadow(0 0 10px rgba(0,240,255,0.3));}
+/* ====================== EQUITY CURVE ====================== */
+.curve-wrap{max-width:900px;margin:0 auto 40px;}
+#curveSvg{width:100%;height:auto;display:block;}
 .curve-path{
-  fill:none;stroke:var(--accent);stroke-width:2.5;
+  fill:none;stroke:var(--gold);stroke-width:2;
   stroke-dasharray:2000;stroke-dashoffset:2000;
-  transition:stroke-dashoffset 2s ease-in-out;
+  transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1);
 }
 .curve-path.animate{stroke-dashoffset:0;}
-.curve-fill{opacity:0;transition:opacity 2s ease 1s;}
+.curve-fill{opacity:0;transition:opacity 1.6s ease 0.6s;}
 .curve-fill.animate{opacity:1;}
-.curve-node{fill:var(--bg);stroke:var(--accent);stroke-width:2;r:5;cursor:pointer;transition:all .3s;}
-.curve-node.milestone{fill:var(--gold); stroke:var(--gold); r:6; filter: drop-shadow(0 0 8px var(--gold));}
-.curve-node:hover{r:8; fill:var(--accent);}
-.curve-node.milestone:hover{fill:var(--gold);}
+.curve-node{fill:var(--bg);stroke:var(--gold);stroke-width:2;r:4;cursor:pointer;transition:r .2s;}
+.curve-node.milestone{fill:var(--gold);r:5.5;}
+.curve-node:hover{r:7;}
+.curve-label{font-family:var(--mono);font-size:10px;fill:var(--ink-faint);}
 
 /* ====================== TIMELINE LIST ====================== */
 .timeline{max-width:720px;margin:0 auto;position:relative;}
 .timeline::before{
-  content:'';position:absolute;left:9px;top:0;bottom:0;width:2px;
-  background:linear-gradient(var(--bg), var(--ink-faint) 10%, var(--ink-faint) 90%, var(--bg));
+  content:'';position:absolute;left:9px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(var(--gold-dim),transparent 95%);
 }
-.t-item{position:relative;padding-left:50px;margin-bottom:60px;}
+.t-item{position:relative;padding-left:42px;margin-bottom:44px;}
 .t-dot{
-  position:absolute;left:-1px;top:6px;width:22px;height:22px;border-radius:50%;
+  position:absolute;left:0;top:4px;width:20px;height:20px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg);border:2px solid var(--ink-faint); z-index: 2;
+  background:var(--bg-alt);border:1.5px solid var(--ink-faint);
 }
-/* Color Coding for Trading Vibe */
-.t-item[data-mood="up"] .t-dot{border-color:var(--up); box-shadow: 0 0 10px rgba(16,185,129,0.3);}
-.t-item[data-mood="down"] .t-dot{border-color:var(--down); box-shadow: 0 0 10px rgba(239,68,68,0.3);}
-.t-item[data-mood="neutral"] .t-dot{border-color:var(--ink-dim);}
-
-.t-item[data-mood="up"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--up);}
-.t-item[data-mood="down"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--down);}
-.t-item[data-mood="neutral"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--ink-dim);}
-
-.t-item.milestone .t-dot{border-color:var(--gold); box-shadow: 0 0 15px rgba(245,158,11,0.4);}
-.t-item.milestone .t-dot::after{background:var(--gold);}
-
-.t-date{font-family:var(--display);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;display:block;}
-.t-title{font-size:1.4rem;color:var(--ink);margin-bottom:10px;}
-.t-content{color:var(--ink-dim);font-size:0.95rem;max-width:560px;margin-bottom:16px;}
-.t-item{opacity:0;transform:translateX(-20px);transition:opacity 0.6s ease, transform 0.6s ease;}
-.t-item.visible{opacity:1;transform:translateX(0);}
-
+.t-item[data-mood="up"] .t-dot{border-color:var(--emerald);}
+.t-item[data-mood="down"] .t-dot{border-color:var(--rust);}
+.t-item[data-mood="up"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--emerald);}
+.t-item[data-mood="down"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--rust);}
+.t-item[data-mood="neutral"] .t-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--ink-faint);}
+.t-item.milestone .t-dot{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim);}
+.t-date{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;}
+.t-title{font-size:1.3rem;color:var(--ink);margin-bottom:8px;}
+.t-content{color:var(--ink-dim);font-size:.96rem;max-width:560px;margin-bottom:12px;}
+.t-item{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease;}
+.t-item.visible{opacity:1;transform:translateY(0);}
 .milestone-tag{
-  display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:9px;
-  color:var(--bg); background: var(--gold); text-transform:uppercase;letter-spacing:0.1em;
-  margin-bottom:10px; padding: 2px 8px; border-radius: 2px; font-weight: 700;
+  display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
+  color:var(--gold-bright);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
 }
+.milestone-tag::before{content:'◆';}
 
-/* ====================== POLAROID EFFECT (CONTRAST VIBE) ====================== */
+/* ====================== POLAROID EFFECT ====================== */
 .polaroids { 
-  position: relative; margin-top: 24px; height: 180px; width: 100%; max-width: 320px; display: block; 
+  position: relative; margin-top: 16px; height: 170px; width: 100%; max-width: 300px; display: block; 
 }
 .polaroid { 
-  position: absolute; background: #fff; padding: 8px 8px 24px 8px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8); border-radius: 2px;
+  position: absolute; background: #fff; padding: 6px 6px 20px 6px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 2px;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), z-index 0s; 
 }
 .polaroid img { 
-  width: 130px; height: 130px; object-fit: cover; background: #111; display: block; filter: grayscale(20%); transition: filter 0.3s;
+  width: 120px; height: 120px; object-fit: cover; background: #222; display: block; 
 }
-.p1 { transform: rotate(-5deg); left: 0; top: 10px; z-index: 1; }
-.p2 { transform: rotate(5deg); left: 80px; top: -5px; z-index: 2; }
+.p1 { transform: rotate(-6deg); left: 0; top: 10px; z-index: 1; }
+.p2 { transform: rotate(8deg); left: 75px; top: -5px; z-index: 2; }
 .polaroid:hover { 
-  transform: scale(1.15) rotate(0deg); z-index: 10; 
-  box-shadow: 0 20px 50px rgba(0,240,255,0.15); 
+  transform: scale(1.2) rotate(0deg); z-index: 10; 
+  box-shadow: 0 15px 35px rgba(0,0,0,0.8); 
 }
-.polaroid:hover img { filter: grayscale(0%); }
 
 /* ====================== GALLERY ====================== */
 .slider{
-  max-width:800px;margin:0 auto;position:relative;
+  max-width:760px;margin:0 auto;position:relative;
   border-radius:var(--radius);overflow:hidden;
-  background:var(--bg-alt); border:1px solid var(--ink-faint);
+  background:var(--panel);border:1px solid var(--gold-dim);
 }
 .slides{display:flex;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
 .slide{min-width:100%;position:relative;aspect-ratio:16/9;}
 .slide img{width:100%;height:100%;object-fit:cover;}
 .slide .placeholder{
   width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;background: var(--bg-alt); color:var(--ink-faint);
+  gap:10px;background:
+    radial-gradient(circle at 30% 20%, rgba(199,162,74,0.12), transparent 60%),
+    linear-gradient(135deg,var(--bg-alt),var(--panel));
+  color:var(--ink-faint);
 }
-.slide .placeholder .glyph{font-family:var(--display);font-size:2rem;color:var(--ink-faint);}
+.slide .placeholder .glyph{font-family:var(--serif);font-size:2.4rem;color:var(--gold-dim);}
 .caption{
-  position:absolute;left:0;bottom:0;right:0;padding:20px;
-  background:linear-gradient(transparent, rgba(0,0,0,.9));
-  font-family:var(--sans);font-size:0.95rem;color:var(--ink); font-weight: 500;
+  position:absolute;left:0;bottom:0;right:0;padding:18px 22px;
+  background:linear-gradient(transparent, rgba(0,0,0,.55));
+  font-family:var(--mono);font-size:12.5px;color:var(--ink);
 }
 .slider-nav{
   position:absolute;top:50%;transform:translateY(-50%);
-  width:40px;height:40px; border:1px solid var(--ink-faint); background: rgba(13,17,23,0.8);
-  color:var(--ink);display:flex;align-items:center;justify-content:center;
-  font-size:18px;z-index:5; transition: 0.2s; backdrop-filter: blur(4px);
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(14,13,11,.55);border:1px solid var(--gold-dim);
+  color:var(--gold-bright);display:flex;align-items:center;justify-content:center;
+  font-size:16px;z-index:5;
 }
-.slider-nav:hover { border-color: var(--accent); color: var(--accent); }
-.slider-nav.prev{left:16px;}
-.slider-nav.next{right:16px;}
-.dots{display:flex;justify-content:center;gap:8px;margin-top:20px;}
-.dot{width:8px;height:8px;border-radius:2px;background:var(--ink-faint);border:none;padding:0;transition:.3s;}
-.dot.active{background:var(--accent); width:24px;}
+.slider-nav.prev{left:14px;}
+.slider-nav.next{right:14px;}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:16px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);border:none;padding:0;transition:.2s;}
+.dot.active{background:var(--gold);width:20px;border-radius:4px;}
 
 /* ====================== FOOTER ====================== */
 footer{
-  text-align:center;padding:100px 20px 60px;
-  border-top:1px solid var(--bg-alt);
+  text-align:center;padding:80px 20px 60px;
+  border-top:1px solid var(--gold-dim);
 }
-footer .quote{font-family:var(--display);font-size:clamp(1.2rem,3vw,1.8rem);color:var(--ink);max-width:700px;margin:0 auto 20px;}
-footer .quote span { color: var(--accent); }
-footer .targets{font-family:var(--sans);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim); display:flex; justify-content:center; gap: 15px; flex-wrap:wrap;}
-footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radius: 4px; border: 1px solid var(--ink-faint); }
+footer .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--gold-bright);max-width:600px;margin:0 auto 18px;}
+footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);}
 
-/* ====================== FLOATING BUTTONS (CYBERPUNK VIBE) ====================== */
+/* ====================== FLOATING BUTTONS ====================== */
 .float-btn {
-  position:fixed; bottom:24px; z-index:150;
-  width:50px; height:50px; border-radius:4px;
-  background:var(--bg-alt); border:1px solid var(--ink-faint);
-  color:var(--ink); font-size:20px;
+  position:fixed; bottom:22px; z-index:150;
+  width:48px; height:48px; border-radius:50%;
+  background:var(--panel); border:1px solid var(--gold-dim);
+  color:var(--gold); font-size:18px;
   display:flex; align-items:center; justify-content:center;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5); transition:all .2s;
+  box-shadow:0 6px 20px rgba(0,0,0,.4); transition:transform .2s;
 }
-.float-btn:hover { border-color:var(--accent); color:var(--accent); transform: translateY(-3px); }
-#lockBtn { right:24px; }
-#lockBtn.unlocked { color:var(--up); border-color:var(--up); }
-#musicBtn { left:24px; }
-#musicBtn.playing { color:var(--accent); border-color:var(--accent); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
+.float-btn:hover { transform:scale(1.06); }
+#lockBtn { right:22px; }
+#lockBtn.unlocked { color:var(--emerald); border-color:var(--emerald); }
+#musicBtn { left:22px; font-size:22px; }
+#musicBtn.playing { color:var(--emerald); border-color:var(--emerald); animation: pulse 2s infinite;}
 
-/* ====================== MODAL & EDITOR (DASHBOARD STYLE) ====================== */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(63, 138, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(63, 138, 113, 0); }
+}
+
+/* ====================== MODAL / EDIT PANEL ====================== */
 .overlay{
-  position:fixed;inset:0;background:rgba(5,7,10,0.9);backdrop-filter:blur(5px);
+  position:fixed;inset:0;background:rgba(10,9,7,.72);backdrop-filter:blur(4px);
   z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .3s;
+  opacity:0;pointer-events:none;transition:opacity .25s ease;
 }
 .overlay.show{opacity:1;pointer-events:auto;}
 .modal{
-  background:var(--bg-alt);border:1px solid var(--ink-faint);border-radius:var(--radius);
-  padding:32px;max-width:400px;width:100%; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+  background:var(--panel);border:1px solid var(--gold-dim);border-radius:var(--radius);
+  padding:32px;max-width:420px;width:100%;
 }
-.modal h3{color:var(--ink);margin-bottom:8px;font-size:1.4rem;}
-.modal p.hint{color:var(--ink-dim);font-size:.9rem;margin-bottom:20px;}
+.modal h3{color:var(--ink);margin-bottom:8px;font-size:1.3rem;}
+.modal p.hint{color:var(--ink-dim);font-size:.88rem;margin-bottom:20px;}
 .modal input[type="password"], .modal input[type="text"]{
-  width:100%;padding:12px;background:var(--bg);border:1px solid var(--ink-faint);
-  border-radius:4px;color:var(--ink);font-family:var(--sans);font-size:15px;letter-spacing:0.1em;
-  margin-bottom:16px; transition: 0.2s;
+  width:100%;padding:12px 14px;background:var(--bg-alt);border:1px solid var(--gold-dim);
+  border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:15px;letter-spacing:.1em;
+  margin-bottom:12px;
 }
-.modal input:focus{outline:none;border-color:var(--accent); box-shadow: 0 0 0 2px rgba(0,240,255,0.1);}
+.modal input:focus{outline:none;border-color:var(--gold);}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:10px 20px;border-radius:4px;border:1px solid var(--accent);
-  background:transparent;color:var(--accent);font-family:var(--display);font-weight:600;font-size:13px; text-transform: uppercase;
-  transition:.2s; cursor: pointer; letter-spacing: 0.05em;
+  padding:11px 20px;border-radius:8px;border:1px solid var(--gold);
+  background:transparent;color:var(--gold-bright);font-weight:600;font-size:.9rem;
+  transition:.2s;
 }
-.btn:hover{background:var(--accent);color:#000;}
-.btn.primary{background:var(--accent);color:#000;}
-.btn.primary:hover{background:transparent; color:var(--accent);}
+.btn:hover{background:var(--gold);color:var(--bg);}
+.btn.primary{background:var(--gold);color:var(--bg);}
+.btn.primary:hover{background:var(--gold-bright);}
 .btn.ghost{border-color:var(--ink-faint);color:var(--ink-dim);}
-.btn.ghost:hover{border-color:var(--ink); color:var(--ink); background:transparent;}
-.btn.small{padding:6px 12px;font-size:11px;}
-.btn-row{display:flex;gap:10px;margin-top:8px;}
-.modal .error{color:var(--down);font-size:13px;margin:-8px 0 16px;display:none;}
+.btn.small{padding:6px 12px;font-size:.78rem;}
+.btn-row{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;}
+.modal .error{color:var(--rust);font-size:.82rem;margin:-4px 0 12px;display:none;}
 
 /* Edit drawer */
 .editor{
   position:fixed;inset:0;z-index:600;background:var(--bg);
-  transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.7,.2,1);
   overflow-y:auto;
 }
 .editor.show{transform:translateY(0);}
 .editor-head{
-  position:sticky;top:0;background:var(--bg-alt); border-bottom:1px solid var(--ink-faint);
-  padding:16px clamp(20px,5vw,56px);display:flex;justify-content:space-between;align-items:center;z-index:10;
+  position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--gold-dim);
+  padding:18px clamp(20px,5vw,56px);display:flex;justify-content:space-between;align-items:center;z-index:10;
 }
-.editor-head h3{color:var(--ink);font-size:1.2rem;}
-.editor-body{padding:32px clamp(20px,5vw,56px) 100px;max-width:800px;margin:0 auto;}
+.editor-head h3{color:var(--gold-bright);font-size:1.1rem;}
+.editor-body{padding:32px clamp(20px,5vw,56px) 100px;max-width:780px;margin:0 auto;}
 .field-label{
-  font-family:var(--display);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:8px;display:block;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:6px;display:block;
 }
-.field textarea, .field input, .field select{
-  width:100%;background:var(--bg);border:1px solid var(--ink-faint);border-radius:4px;
-  color:var(--ink);padding:12px;font-family:var(--sans);font-size:.95rem;margin-bottom:20px; transition: 0.2s;
+.field textarea, .field input{
+  width:100%;background:var(--bg-alt);border:1px solid var(--gold-dim);border-radius:8px;
+  color:var(--ink);padding:10px 12px;font-family:var(--sans);font-size:.92rem;margin-bottom:14px;
 }
-.field textarea:focus, .field input:focus, .field select:focus { border-color: var(--accent); outline: none; }
-.field textarea{resize:vertical;min-height:80px;}
+.field textarea{resize:vertical;min-height:64px;}
+.field select{
+  width:100%;background:var(--bg-alt);border:1px solid var(--gold-dim);border-radius:8px;
+  color:var(--ink);padding:10px 12px;font-size:.9rem;margin-bottom:14px;
+}
 .editor-card{
-  background:var(--bg-alt);border:1px solid var(--ink-faint);border-radius:4px;padding:24px;margin-bottom:20px;position:relative;
+  background:var(--panel);border:1px solid var(--gold-dim);border-radius:12px;padding:20px;margin-bottom:16px;position:relative;
 }
 .editor-card .remove{
-  position:absolute;top:16px;right:16px;color:var(--down);background:none;border:none;font-size:11px;font-family:var(--display); text-transform: uppercase;
+  position:absolute;top:14px;right:14px;color:var(--rust);background:none;border:none;font-size:.8rem;font-family:var(--mono);
 }
-.editor-card .remove:hover { color: #fff; background: var(--down); padding: 2px 6px; border-radius: 2px; }
-.editor-section{margin-bottom:48px; border-top: 1px solid var(--ink-faint); padding-top: 32px;}
-.editor-section:first-child { border:none; padding-top:0; }
-.editor-section h4{color:var(--ink);font-size:1.3rem;margin-bottom:24px;}
+.editor-section{margin-bottom:48px;}
+.editor-section h4{color:var(--gold);font-size:1rem;margin-bottom:16px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-weight:500;}
 
 /* Toast */
 #toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--accent);color:#000; font-family:var(--display); font-weight:600;
-  padding:12px 24px;border-radius:4px;font-size:13px; z-index:900;
-  opacity:0;transition:.3s ease;pointer-events:none;
+  background:var(--panel);border:1px solid var(--gold);color:var(--ink);
+  padding:12px 20px;border-radius:8px;font-size:.88rem;z-index:900;
+  opacity:0;transition:.3s;pointer-events:none;
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 @media (max-width:640px){
-  section{padding:80px 20px;}
+  section{padding:70px 18px;}
   .hero{padding-top:100px;}
-  .hero h1 { font-size: 2.5rem; }
-  .t-item { padding-left: 35px; }
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
@@ -346,11 +341,11 @@ footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radi
 </head>
 <body>
 
-<div id="loader"><div class="loader-core"></div><p>Syncing Data...</p></div>
+<div id="loader"><div class="coin">A</div><p>Memuat perjalanan…</p></div>
 
 <div class="topbar">
-  <span class="brand">Jejak Emas <span>//</span></span>
-  <span class="brand" id="navRight">FARID</span>
+  <span class="brand">Jejak Emas</span>
+  <span class="brand" id="navRight">Farid</span>
 </div>
 
 <!-- AUDIO ELEMENT -->
@@ -362,18 +357,19 @@ footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radi
 <section class="hero" id="hero">
   <canvas id="particles"></canvas>
   <div class="hero-inner">
-    <span class="eyebrow">Terminal Ekuitas Pribadi</span>
+    <span class="eyebrow">Perjalanan Pribadi</span>
     <h1 id="bannerTitle">Jejak <em>Emas</em> Farid</h1>
     <p class="subtitle" id="bannerSubtitle">Catatan perjalanan dari nol, jatuh, bangun, dan terus melangkah menuju kebebasan finansial.</p>
   </div>
-  <div class="scroll-cue"><span class="line"></span></div>
+  <div class="scroll-cue"><span class="line"></span><span>SCROLL</span></div>
 </section>
 
 <!-- TIMELINE -->
 <section id="timeline-section">
   <div class="section-head">
-    <h2>Market History</h2>
-    <p>Layaknya sebuah chart, tidak ada jalan pintas yang lurus.</p>
+    <span class="eyebrow">Kurva Ekuitas Hidup</span>
+    <h2>Setiap Naik &amp; Turun, Tercatat</h2>
+    <p>Seperti chart trading — bukan garis lurus, tapi tetap bergerak maju.</p>
   </div>
   <div class="curve-wrap">
     <svg id="curveSvg" viewBox="0 0 1000 260" preserveAspectRatio="none"></svg>
@@ -384,8 +380,8 @@ footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radi
 <!-- GALLERY -->
 <section id="gallery-section">
   <div class="section-head">
-    <h2>Data Visual</h2>
-    <p>Bukti nyata dari setiap proses yang dijalani.</p>
+    <span class="eyebrow">Galeri Momen</span>
+    <h2>Potret di Sepanjang Jalan</h2>
   </div>
   <div class="slider" id="slider">
     <div class="slides" id="slides"></div>
@@ -396,28 +392,25 @@ footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radi
 </section>
 
 <footer>
-  <p class="quote">"Ga ada yang bisa ngebahagiain kamu, <span>selain diri kamu sendiri.</span>"</p>
-  <div class="targets">
-    <span>100 Juta Sebelum 25</span>
-    <span>Financially Free Sebelum 30</span>
-  </div>
+  <p class="quote">"Ga ada yang bisa ngebahagiain kamu, selain diri kamu sendiri."</p>
+  <p class="targets">100 Juta Sebelum 25 Tahun &nbsp;•&nbsp; Kebebasan Finansial Sebelum 30</p>
 </footer>
 
 <!-- FLOATING BUTTONS -->
-<button id="musicBtn" class="float-btn" title="System Audio">🎵</button>
-<button id="lockBtn" class="float-btn" title="Root Access">🔒</button>
+<button id="musicBtn" class="float-btn" title="Putar/Jeda Musik">🎵</button>
+<button id="lockBtn" class="float-btn" title="Mode Edit">🔒</button>
 
 <!-- PIN MODAL -->
 <div class="overlay" id="pinOverlay">
   <div class="modal">
-    <h3 id="pinTitle">System Locked</h3>
-    <p class="hint" id="pinHint">Masukkan root PIN untuk mengakses panel kontrol.</p>
+    <h3 id="pinTitle">Masukkan PIN</h3>
+    <p class="hint" id="pinHint">PIN diperlukan untuk mengedit halaman ini.</p>
     <input type="password" id="pinInput" placeholder="••••••" inputmode="numeric" maxlength="12">
     <input type="password" id="pinConfirm" placeholder="Ulangi PIN baru" inputmode="numeric" maxlength="12" style="display:none">
-    <p class="error" id="pinError">Akses Ditolak.</p>
+    <p class="error" id="pinError">PIN salah, coba lagi.</p>
     <div class="btn-row">
-      <button class="btn primary" id="pinSubmit">Unlock</button>
-      <button class="btn ghost" id="pinCancel">Cancel</button>
+      <button class="btn primary" id="pinSubmit">Buka</button>
+      <button class="btn ghost" id="pinCancel">Batal</button>
     </div>
   </div>
 </div>
@@ -425,44 +418,44 @@ footer .targets span { background: var(--bg-alt); padding: 6px 12px; border-radi
 <!-- EDITOR DRAWER -->
 <div class="editor" id="editor">
   <div class="editor-head">
-    <h3>Data Editor</h3>
+    <h3>Mode Edit</h3>
     <div class="btn-row">
-      <button class="btn primary small" id="saveAllBtn">Deploy Changes</button>
-      <button class="btn ghost small" id="closeEditorBtn">Close</button>
+      <button class="btn primary small" id="saveAllBtn">Simpan ke JSONBin</button>
+      <button class="btn ghost small" id="closeEditorBtn">Tutup</button>
     </div>
   </div>
   <div class="editor-body">
     
     <div class="editor-section">
-      <h4>System Config</h4>
+      <h4>Pengaturan Umum (Audio & Banner)</h4>
       <div class="field">
-        <span class="field-label">Link BGM (MP3)</span>
-        <input type="text" id="editAudioUrl" placeholder="https://...">
-        <span class="field-label">Headline</span>
+        <span class="field-label">Link Audio Musik Latar (MP3)</span>
+        <input type="text" id="editAudioUrl" placeholder="https://link-lagu.com/musik.mp3">
+        <span class="field-label">Judul Banner</span>
         <input type="text" id="editBannerTitle">
-        <span class="field-label">Sub-Headline</span>
+        <span class="field-label">Subjudul</span>
         <textarea id="editBannerSubtitle"></textarea>
       </div>
     </div>
 
     <div class="editor-section">
-      <h4>Timeline Nodes</h4>
+      <h4>Kurva Perjalanan (Timeline & Polaroid)</h4>
       <div id="timelineEditList"></div>
-      <button class="btn small" id="addTimelineBtn">+ Add Node</button>
+      <button class="btn small" id="addTimelineBtn">+ Tambah Momen</button>
     </div>
 
     <div class="editor-section">
-      <h4>Visual Assets</h4>
+      <h4>Galeri Foto Utama</h4>
       <div id="photoEditList"></div>
-      <button class="btn small" id="addPhotoBtn">+ Add Asset</button>
+      <button class="btn small" id="addPhotoBtn">+ Tambah Foto</button>
     </div>
 
     <div class="editor-section">
-      <h4>Security</h4>
+      <h4>Keamanan</h4>
       <div class="field">
-        <span class="field-label">Update PIN</span>
-        <input type="text" id="newPinField" placeholder="New PIN">
-        <button class="btn ghost small" id="changePinBtn">Update</button>
+        <span class="field-label">Ganti PIN</span>
+        <input type="text" id="newPinField" placeholder="PIN baru (angka/huruf)">
+        <button class="btn ghost small" id="changePinBtn">Ganti PIN</button>
       </div>
     </div>
 
@@ -488,19 +481,26 @@ const JSONBIN_BASE = `https://api.jsonbin.io/v3/b/${CONFIG.JSONBIN_BIN_ID}`;
 function defaultData(){
   return {
     pinHash: "",
-    audioUrl: "", 
+    audioUrl: "", // TAMBAHAN: Musik latar
     banner: {
       title: "Jejak Emas Farid",
       subtitle: "Catatan perjalanan dari nol, jatuh, bangun, dan terus melangkah menuju kebebasan finansial."
     },
     photos: [
-      {url:"", caption:"Rebuilding, Juli 2025"},
-      {url:"", caption:"Achieved 50M, 2026"},
-      {url:"", caption:"Core Team"}
+      {url:"", caption:"Mulai membangun ulang, Juli 2025"},
+      {url:"", caption:"Pencapaian 50 juta pertama, 2026"},
+      {url:"", caption:"Bersama mentor dan partner terbaik"}
     ],
     timeline: [
       {id:1, date:"2020 — SMP", title:"Awal Berjualan", content:"Mulai berjualan handphone, charger, dan berbagai barang sejak SMP. Titik awal dari perjalanan bisnis yang berjalan lima tahun ke depan.", mood:"neutral", milestone:false, polaroid1:"", polaroid2:""},
-      {id:2, date:"18 Tahun — Lulus SMK", title:"10 Juta Pertama", content:"Dari gaji kerja dan hasil jual-beli HP, berhasil mengumpulkan 10 juta pertama. Uang ini dipakai untuk kuliah, demi menaikkan value dan skill.", mood:"up", milestone:true, polaroid1:"", polaroid2:""}
+      {id:2, date:"18 Tahun — Lulus SMK", title:"10 Juta Pertama", content:"Dari gaji kerja dan hasil jual-beli HP, berhasil mengumpulkan 10 juta pertama. Uang ini dipakai untuk kuliah, demi menaikkan value dan skill.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:3, date:"Desember 2024 — 20 Tahun", title:"25 Juta Pertama", content:"Relasi baru di dunia crypto dan forex membawa ke titik tertinggi saat itu: 25 juta pertama, tepat di usia 20 tahun.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:4, date:"Juli 2025", title:"Memulai Dari Nol", content:"Semua yang telah dikumpulkan hilang karena kesalahan sendiri. Berjanji tetap bertanggung jawab, berjuang mencapai 100 juta pertama sebelum 25 tahun, dan kebebasan finansial sebelum 30 tahun.", mood:"down", milestone:true, polaroid1:"", polaroid2:""},
+      {id:5, date:"Februari 2026", title:"Amunisi Pertama", content:"Berhasil mengumpulkan sebagian gaji sebagai amunisi ke depan — hasil dari cuti kuliah setahun dan double job setiap hari.", mood:"up", milestone:false, polaroid1:"", polaroid2:""},
+      {id:6, date:"April 2026", title:"50 Juta Pertama Tahun Ini", content:"Di tengah proses yang berat, tetap dikelilingi orang-orang yang menyayangi: mentor, orang tua, dan saudara. Berhasil mencapai 50 juta pertama di tahun ini.", mood:"up", milestone:true, polaroid1:"", polaroid2:""},
+      {id:7, date:"April 2026 — Minggu ke-2", title:"Trading Kembali", content:"Mulai belajar dan trading kembali pelan-pelan. Berhasil mempertahankan modal dan menghasilkan profit yang cukup dalam satu minggu.", mood:"up", milestone:false, polaroid1:"", polaroid2:""},
+      {id:8, date:"April 2026 — Akhir Bulan", title:"Badai yang Berlalu", content:"Bulan yang berat, tapi dipercaya sebagai pilihan terbaik menuju sukses. Tugasnya sekarang: kuat, sabar, dan ikhlas menjalani proses.", mood:"neutral", milestone:false, polaroid1:"", polaroid2:""},
+      {id:9, date:"Akhir Juli 2026", title:"Mulai Lagi Dari Awal", content:"50 juta hilang, kepercayaan partner sempat pudar, dan hubungan dengan orang tua diuji. Tetap berjanji tidak menyerah — mulai Agustus, satu per satu masalah akan diselesaikan.", mood:"down", milestone:true, polaroid1:"", polaroid2:""}
     ]
   };
 }
@@ -539,12 +539,13 @@ async function loadData(){
     const json = await res.json();
     const record = json.record;
     if(record && record.timeline){
+      // Gabungkan struktur default jika ada key baru yg kosong di server
       state.data = { ...defaultData(), ...record }; 
     }
   }catch(err){}
 }
 async function saveData(){
-  if(!JSONBIN_CONFIGURED){ toast("JSONBin error."); return false; }
+  if(!JSONBIN_CONFIGURED){ toast("JSONBin belum dikonfigurasi."); return false; }
   try{
     const res = await fetch(JSONBIN_BASE, {
       method:'PUT',
@@ -552,10 +553,10 @@ async function saveData(){
       body: JSON.stringify(state.data)
     });
     if(!res.ok) throw new Error('save failed');
-    toast("System Deployed.");
+    toast("Tersimpan.");
     return true;
   }catch(err){
-    toast("Deploy Failed. Check API.");
+    toast("Gagal menyimpan. Cek Bin ID / API Key.");
     return false;
   }
 }
@@ -577,7 +578,7 @@ function initAudio() {
 document.getElementById('musicBtn').addEventListener('click', () => {
   const bgMusic = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
-  if(!state.data.audioUrl) { toast("No Audio URL specified."); return; }
+  if(!state.data.audioUrl) { toast("Belum ada link musik yang di-set di mode Edit."); return; }
   
   if (bgMusic.paused) {
     bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(e=>{});
@@ -587,13 +588,14 @@ document.getElementById('musicBtn').addEventListener('click', () => {
   }
 });
 
+// Autoplay saat interaksi klik pertama kali (kebijakan browser)
 document.body.addEventListener('click', () => {
   if(!audioInitiated && state.data.audioUrl) {
     audioInitiated = true;
     const bgMusic = document.getElementById('bgMusic');
     bgMusic.play().then(() => {
       document.getElementById('musicBtn').classList.add('playing');
-    }).catch(e => console.log('Autoplay blocked.'));
+    }).catch(e => console.log('Autoplay audio dicegah oleh browser.'));
   }
 }, {once: true});
 
@@ -608,7 +610,7 @@ function renderHero(){
 /* =========================================================
    RENDER: EQUITY CURVE
    ========================================================= */
-function moodY(mood){ return mood==='up' ? 60 : mood==='down' ? 200 : 130; }
+function moodY(mood){ return mood==='up' ? 70 : mood==='down' ? 190 : 130; }
 
 function renderCurve(){
   const svg = document.getElementById('curveSvg');
@@ -634,8 +636,8 @@ function renderCurve(){
   svg.innerHTML = `
     <defs>
       <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="#00F0FF" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#c7a24a" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#c7a24a" stop-opacity="0"/>
       </linearGradient>
     </defs>
     <path class="curve-fill" d="${fillD}" fill="url(#curveGrad)"></path>
@@ -655,12 +657,13 @@ function renderTimeline(){
   const el = document.getElementById('timelineList');
   el.innerHTML = state.data.timeline.map(it => {
     
+    // Injeksi HTML Polaroid jika ada URL-nya
     let polaroidHTML = '';
     if(it.polaroid1 || it.polaroid2) {
       polaroidHTML = `
         <div class="polaroids">
-          ${it.polaroid1 ? `<div class="polaroid p1"><img src="${escapeHtml(it.polaroid1)}" alt="Frame"></div>` : ''}
-          ${it.polaroid2 ? `<div class="polaroid p2"><img src="${escapeHtml(it.polaroid2)}" alt="Frame"></div>` : ''}
+          ${it.polaroid1 ? `<div class="polaroid p1"><img src="${escapeHtml(it.polaroid1)}" alt="Foto Momen"></div>` : ''}
+          ${it.polaroid2 ? `<div class="polaroid p2"><img src="${escapeHtml(it.polaroid2)}" alt="Foto Momen"></div>` : ''}
         </div>
       `;
     }
@@ -668,7 +671,7 @@ function renderTimeline(){
     return `
       <div class="t-item ${it.milestone ? 'milestone':''}" data-mood="${it.mood}">
         <span class="t-dot"></span>
-        ${it.milestone ? '<span class="milestone-tag">ACHIEVED</span>' : ''}
+        ${it.milestone ? '<span class="milestone-tag">Milestone</span>' : ''}
         <span class="t-date">${escapeHtml(it.date)}</span>
         <h3 class="t-title">${escapeHtml(it.title)}</h3>
         <p class="t-content">${escapeHtml(it.content)}</p>
@@ -700,7 +703,7 @@ function renderGallery(){
   slides.innerHTML = photos.map(p => `
     <div class="slide">
       ${p.url ? `<img src="${escapeHtml(p.url)}" alt="${escapeHtml(p.caption)}">` : `
-        <div class="placeholder"><span class="glyph">NO SIGNAL</span></div>
+        <div class="placeholder"><span class="glyph">◆</span><span>Belum ada foto</span></div>
       `}
       ${p.caption ? `<div class="caption">${escapeHtml(p.caption)}</div>` : ''}
     </div>
@@ -727,7 +730,7 @@ function restartAutoplay(){
     if(total===0) return;
     sliderIndex = (sliderIndex+1) % total;
     updateSlider();
-  }, 4000);
+  }, 4200);
 }
 document.getElementById('prevBtn').addEventListener('click', ()=>{
   const total = state.data.photos.length; if(total===0) return;
@@ -752,7 +755,7 @@ document.getElementById('nextBtn').addEventListener('click', ()=>{
 })();
 
 /* =========================================================
-   PARTICLES (DIGITAL DATA POINTS)
+   PARTICLES (gold dust)
    ========================================================= */
 function initParticles(){
   const canvas = document.getElementById('particles');
@@ -763,28 +766,25 @@ function initParticles(){
   function resize(){
     canvas.width = hero.clientWidth;
     canvas.height = hero.clientHeight;
-    const count = Math.floor((canvas.width*canvas.height)/20000);
+    const count = Math.floor((canvas.width*canvas.height)/22000);
     particles = Array.from({length:count}, ()=>({
       x: Math.random()*canvas.width,
       y: Math.random()*canvas.height,
-      r: Math.random()*1.5+0.5,
-      speed: Math.random()*1.5+0.5,
-      alpha: Math.random()*0.5+0.1
+      r: Math.random()*1.6+0.4,
+      speed: Math.random()*0.35+0.08,
+      alpha: Math.random()*0.5+0.15
     }));
   }
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
       ctx.beginPath();
-      // Mengubah bulat jadi bentuk garis layaknya data/hujan matrix halus
-      ctx.moveTo(p.x, p.y);
-      ctx.lineTo(p.x, p.y + p.r * 5);
-      ctx.strokeStyle = `rgba(0, 240, 255, ${p.alpha})`;
-      ctx.lineWidth = p.r;
-      ctx.stroke();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(199,162,74,${p.alpha})`;
+      ctx.fill();
       if(!reduceMotion){
-        p.y -= p.speed; // Gerak ke atas layaknya chart naik
-        if(p.y < -20){ p.y = canvas.height+20; p.x = Math.random()*canvas.width; }
+        p.y -= p.speed;
+        if(p.y < -5){ p.y = canvas.height+5; p.x = Math.random()*canvas.width; }
       }
     });
     requestAnimationFrame(draw);
@@ -813,12 +813,12 @@ lockBtn.addEventListener('click', ()=>{
   pinError.style.display='none';
   pinInput.value=''; pinConfirm.value='';
   if(isFirstRunPin()){
-    pinTitle.textContent = 'Setup Root PIN';
-    pinHint.textContent = 'System requires PIN generation.';
+    pinTitle.textContent = 'Buat PIN Baru';
+    pinHint.textContent = 'Belum ada PIN yang tersimpan. Buat PIN untuk melindungi mode edit.';
     pinConfirm.style.display='block';
   }else{
-    pinTitle.textContent = 'System Locked';
-    pinHint.textContent = 'Enter PIN to authenticate.';
+    pinTitle.textContent = 'Masukkan PIN';
+    pinHint.textContent = 'PIN diperlukan untuk mengedit halaman ini.';
     pinConfirm.style.display='none';
   }
   pinOverlay.classList.add('show');
@@ -831,22 +831,25 @@ document.getElementById('pinSubmit').addEventListener('click', async ()=>{
   if(!val){ return; }
   if(isFirstRunPin()){
     if(val !== pinConfirm.value.trim() || val.length < 4){
-      pinError.textContent = 'PIN minimal 4 karakter dan cocok.';
+      pinError.textContent = 'PIN minimal 4 karakter dan harus sama di kedua kolom.';
       pinError.style.display='block';
       return;
     }
     state.data.pinHash = await sha256(val);
     state.unlocked = true;
     pinOverlay.classList.remove('show');
+    lockBtn.classList.add('unlocked'); lockBtn.textContent='🔓';
+    toast('PIN dibuat. Jangan lupa klik "Simpan ke JSONBin".');
     openEditor();
   }else{
     const hash = await sha256(val);
     if(hash === state.data.pinHash){
       state.unlocked = true;
       pinOverlay.classList.remove('show');
+      lockBtn.classList.add('unlocked'); lockBtn.textContent='🔓';
       openEditor();
     }else{
-      pinError.textContent = 'Auth Failed.';
+      pinError.textContent = 'PIN salah, coba lagi.';
       pinError.style.display='block';
     }
   }
@@ -875,28 +878,28 @@ function buildEditorForm(){
   const tList = document.getElementById('timelineEditList');
   tList.innerHTML = state.data.timeline.map((it,i)=>`
     <div class="editor-card" data-index="${i}">
-      <button class="remove" data-action="remove-t" data-index="${i}">Delete</button>
-      <span class="field-label">Date/Time</span>
+      <button class="remove" data-action="remove-t" data-index="${i}">Hapus</button>
+      <span class="field-label">Tanggal</span>
       <input type="text" class="t-date-field" value="${escapeHtml(it.date)}">
-      <span class="field-label">Node Title</span>
+      <span class="field-label">Judul</span>
       <input type="text" class="t-title-field" value="${escapeHtml(it.title)}">
-      <span class="field-label">Log Entry</span>
+      <span class="field-label">Cerita</span>
       <textarea class="t-content-field">${escapeHtml(it.content)}</textarea>
       
-      <span class="field-label">Market Trend (Color Code)</span>
+      <span class="field-label">Suasana (untuk kurva)</span>
       <select class="t-mood-field">
-        <option value="up" ${it.mood==='up'?'selected':''}>Bullish (Green)</option>
-        <option value="neutral" ${it.mood==='neutral'?'selected':''}>Consolidation (Gray)</option>
-        <option value="down" ${it.mood==='down'?'selected':''}>Bearish (Red)</option>
+        <option value="up" ${it.mood==='up'?'selected':''}>Naik</option>
+        <option value="neutral" ${it.mood==='neutral'?'selected':''}>Netral</option>
+        <option value="down" ${it.mood==='down'?'selected':''}>Turun</option>
       </select>
       
-      <label style="display:flex;align-items:center;gap:8px;color:var(--ink);font-size:14px;margin-bottom:20px;">
-        <input type="checkbox" class="t-milestone-field" ${it.milestone?'checked':''} style="width:auto;margin:0;"> Mark as Major Achievement (Gold)
+      <label style="display:flex;align-items:center;gap:8px;color:var(--ink-dim);font-size:.85rem;margin-bottom:12px;">
+        <input type="checkbox" class="t-milestone-field" ${it.milestone?'checked':''} style="width:auto;margin:0;"> Tandai sebagai milestone
       </label>
 
-      <span class="field-label">Asset 1 (URL)</span>
+      <span class="field-label">Foto Polaroid 1 (Opsional - URL)</span>
       <input type="text" class="t-p1-field" value="${escapeHtml(it.polaroid1 || '')}" placeholder="https://...">
-      <span class="field-label">Asset 2 (URL)</span>
+      <span class="field-label">Foto Polaroid 2 (Opsional - URL)</span>
       <input type="text" class="t-p2-field" value="${escapeHtml(it.polaroid2 || '')}" placeholder="https://...">
     </div>
   `).join('');
@@ -904,8 +907,8 @@ function buildEditorForm(){
   const pList = document.getElementById('photoEditList');
   pList.innerHTML = state.data.photos.map((p,i)=>`
     <div class="editor-card" data-index="${i}">
-      <button class="remove" data-action="remove-p" data-index="${i}">Delete</button>
-      <span class="field-label">Image URL</span>
+      <button class="remove" data-action="remove-p" data-index="${i}">Hapus</button>
+      <span class="field-label">URL Foto</span>
       <input type="text" class="p-url-field" value="${escapeHtml(p.url)}" placeholder="https://...">
       <span class="field-label">Caption</span>
       <input type="text" class="p-caption-field" value="${escapeHtml(p.caption)}">
@@ -922,12 +925,12 @@ function buildEditorForm(){
 
 document.getElementById('addTimelineBtn').addEventListener('click', ()=>{
   pullEditorFieldsIntoState();
-  state.data.timeline.push({ id: Date.now(), date:'Log Date', title:'New Entry', content:'...', mood:'neutral', milestone:false, polaroid1:'', polaroid2:'' });
+  state.data.timeline.push({ id: Date.now(), date:'Tanggal', title:'Momen Baru', content:'Ceritakan momen ini...', mood:'neutral', milestone:false, polaroid1:'', polaroid2:'' });
   buildEditorForm();
 });
 document.getElementById('addPhotoBtn').addEventListener('click', ()=>{
   pullEditorFieldsIntoState();
-  state.data.photos.push({ url:'', caption:'File info' });
+  state.data.photos.push({ url:'', caption:'Caption foto' });
   buildEditorForm();
 });
 document.getElementById('changePinBtn').addEventListener('click', async ()=>{
@@ -935,7 +938,7 @@ document.getElementById('changePinBtn').addEventListener('click', async ()=>{
   if(val.length < 4){ toast('PIN minimal 4 karakter.'); return; }
   state.data.pinHash = await sha256(val);
   document.getElementById('newPinField').value='';
-  toast('PIN Updated. Click Deploy to save.');
+  toast('PIN diperbarui. Klik "Simpan ke JSONBin" untuk menyimpan permanen.');
 });
 
 /* read current editor DOM back into state.data before save/rebuild */
@@ -976,9 +979,7 @@ function renderAll(){
   await loadData();
   renderAll();
   initParticles();
-  setTimeout(()=>{
-    document.getElementById('loader').classList.add('hide');
-  }, 1000); // Sedikit lebih lama untuk efek tech-sync
+  setTimeout(()=>document.getElementById('loader').classList.add('hide'), 500);
 })();
 </script>
 </body>
