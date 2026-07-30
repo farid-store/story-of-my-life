@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Untuk Kesayanganku ❤️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +35,7 @@ body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:var(--sans); line-height:1.6; overflow-x:hidden;
 }
-body.intro-active{ overflow:hidden; height:100vh; }
+body.intro-active{ overflow:hidden; height:100vh; position: fixed; width: 100%; }
 img{max-width:100%;display:block;}
 button{font-family:inherit;cursor:pointer;}
 ::selection{background:var(--gold-dim);color:var(--gold-bright);}
@@ -79,14 +79,15 @@ body::before{
   width:260px; height:172px; position:relative; cursor:pointer; opacity:0;
   animation:fadeUp 1s ease forwards .5s;
 }
+@media (max-width:350px){ .envelope{ transform: scale(0.85); } }
+
 .envelope-shadow{ position:absolute; left:10%; right:10%; bottom:-18px; height:16px; background:radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 70%); filter:blur(2px); }
 .envelope-back{
   position:absolute; inset:0; border-radius:6px; background:linear-gradient(160deg,#241f18,#181410);
   border:1px solid var(--gold-dim); box-shadow:0 24px 50px rgba(0,0,0,.55);
 }
 .envelope-back::before, .envelope-back::after{
-  content:''; position:absolute; bottom:0; width:0; height:0;
-  border-style:solid;
+  content:''; position:absolute; bottom:0; width:0; height:0; border-style:solid;
 }
 .envelope-back::before{ left:0; border-width:0 0 86px 130px; border-color:transparent transparent rgba(255,255,255,0.02) transparent; }
 .envelope-back::after{ right:0; border-width:86px 130px 0 0; border-color:transparent rgba(255,255,255,0.02) transparent transparent; }
@@ -116,7 +117,7 @@ body::before{
 
 .intro-readbtn{
   margin-top:30px; opacity:0; pointer-events:none; transition:opacity .5s ease .2s, transform .5s ease .2s;
-  transform:translateY(8px);
+  transform:translateY(8px); padding: 12px 24px; border:1px solid var(--gold); border-radius: 8px; background: transparent; color: var(--gold);
 }
 .intro-readbtn.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
 
@@ -124,8 +125,8 @@ body::before{
   width:100%; max-width:440px; background:var(--paper); color:var(--paper-ink);
   border-radius:4px; padding:38px 32px 32px; box-shadow:0 30px 70px rgba(0,0,0,.55);
   opacity:0; transform:scale(.94) translateY(10px); pointer-events:none;
-  transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); position:relative;
-  max-height:80vh; overflow-y:auto;
+  transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); position:absolute;
+  max-height:80vh; overflow-y:auto; z-index: 10;
 }
 .letter-view.show{ opacity:1; transform:scale(1) translateY(0); pointer-events:auto; }
 .letter-view::before{
@@ -139,24 +140,24 @@ body::before{
 @keyframes blink{ 50%{opacity:0;} }
 .intro-continue-btn{
   margin-top:18px; opacity:0; pointer-events:none; transition:opacity .5s ease, transform .5s ease; transform:translateY(6px);
-  display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:8px;
-  border:1px solid var(--rust); background:var(--rust); color:#fdf6e8; font-weight:700; font-size:.9rem;
+  display:inline-flex; align-items:center; justify-content: center; gap:8px; padding:13px 26px; border-radius:8px;
+  border:1px solid var(--rust); background:var(--rust); color:#fdf6e8; font-weight:700; font-size:.9rem; width: 100%;
 }
 .intro-continue-btn.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
 .intro-continue-btn:hover{ background:#8a4635; }
 
 /* ====================== NAVBAR ====================== */
 .topbar{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
+  position:absolute; top:0; left:0; right:0; z-index:200;
+  display:flex; justify-content:space-between; align-items:center;
   padding:20px clamp(20px,5vw,56px); mix-blend-mode:difference;
 }
 .brand{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);}
 
-/* ====================== HERO SECTION & HERO POLAROIDS ====================== */
+/* ====================== HERO SECTION ====================== */
 .hero{
-  position:relative;min-height:100vh; display:flex;flex-direction:column;
-  align-items:center;justify-content:center; text-align:center;padding:90px 20px 80px; overflow:hidden;
+  position:relative; min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:120px 20px 80px; overflow:hidden;
 }
 #particles{position:absolute;inset:0;z-index:0;}
 .hero-inner{position:relative;z-index:1;max-width:800px; display:flex; flex-direction:column; align-items:center;}
@@ -169,9 +170,11 @@ body::before{
 
 /* Kumpulan Polaroid Hero (Atas) */
 .hero-gallery {
-  position: relative; width: 100%; max-width: 320px; height: 310px;
-  margin: 0 auto 30px auto; display: flex; justify-content: center;
+  position: relative; width: 100%; max-width: 320px; height: 280px;
+  margin: 0 auto 40px auto; display: flex; justify-content: center;
 }
+@media(max-width: 480px){ .hero-gallery { transform: scale(0.85); margin-bottom: 10px; } }
+
 .polaroid-frame {
   background: #fafafa; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   border-radius: 4px; cursor: pointer;
@@ -189,8 +192,9 @@ body::before{
 .hg-main:hover { transform: scale(1.15) rotate(0deg); }
 
 .hg-stack-container {
-  position: absolute; top: 150px; display: flex; justify-content: center; width: 100%;
+  position: absolute; top: 130px; display: flex; justify-content: center; width: 100%; pointer-events: none;
 }
+.hg-stack-container > * { pointer-events: auto; }
 .hg-small { width: 95px; height: 115px; padding: 6px 6px 22px 6px; }
 .hg-small:hover { transform: scale(1.3) rotate(0deg); }
 .hg-s1 { transform: rotate(-16deg); margin-right: -25px; z-index: 3; margin-top: 5px;}
@@ -199,13 +203,13 @@ body::before{
 
 .hero h1{ font-size:clamp(2.4rem,7vw,5rem); font-weight:400; letter-spacing:-0.01em; color:var(--ink); margin-bottom:16px; }
 .hero h1 em{font-style:italic;color:var(--gold-bright);font-weight:300;}
-.hero p.subtitle{ color:var(--ink-dim);font-size:clamp(1.05rem,2vw,1.2rem); max-width:560px;margin:0 auto; }
+.hero p.subtitle{ color:var(--ink-dim);font-size:clamp(1rem,2vw,1.2rem); max-width:560px;margin:0 auto; padding: 0 10px;}
 
 .love-counter{
   margin-top:30px; display:inline-flex; align-items:center; gap:10px;
   font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:var(--gold-bright);
   border:1px solid var(--gold-dim); padding:10px 18px; border-radius:100px;
-  background:rgba(14,13,11,.4); backdrop-filter:blur(4px);
+  background:rgba(14,13,11,.4); backdrop-filter:blur(4px); text-align: left; line-height: 1.4;
 }
 .love-counter b{ font-size:14px; color:var(--ink); }
 
@@ -220,14 +224,15 @@ body::before{
 
 /* ====================== SECTIONS ====================== */
 section{padding:100px clamp(20px,6vw,56px);position:relative;}
+@media(max-width: 768px){ section{ padding: 60px 20px; } }
 .section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
 .section-head .eyebrow{margin-bottom:14px; background: transparent;}
 .section-head h2{font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);}
-.section-head p{color:var(--ink-dim);margin-top:12px;}
+.section-head p{color:var(--ink-dim);margin-top:12px; font-size: 0.95rem;}
 
 /* ====================== KURVA PERJALANAN ====================== */
-.curve-wrap{max-width:900px;margin:0 auto 40px;}
-#curveSvg{width:100%;height:auto;display:block;}
+.curve-wrap{max-width:900px;margin:0 auto 40px; overflow:hidden;}
+#curveSvg{width:100%;height:100px;display:block;} /* Height adjusted so it doesn't break aspect ratio badly */
 .curve-path{
   fill:none;stroke:var(--gold);stroke-width:2;
   stroke-dasharray:2000;stroke-dashoffset:2000; transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1);
@@ -245,7 +250,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   background:linear-gradient(var(--gold-dim),transparent 95%);
 }
 .t-item{
-  position:relative;margin-bottom:80px; opacity:0;transform:translateY(24px);
+  position:relative;margin-bottom:70px; opacity:0;transform:translateY(24px);
   transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
 }
 .t-item.visible{opacity:1;transform:translateY(0);}
@@ -260,12 +265,12 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .t-item[data-mood="down"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--ink-faint);}
 .t-item[data-mood="neutral"] .t-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);}
 .t-item.milestone .t-dot{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-dim);}
-.t-content-wrapper { display: flex; flex-direction: column; gap: 30px; padding-left: 50px; }
+.t-content-wrapper { display: flex; flex-direction: column; gap: 20px; padding-left: 50px; }
 .t-text { flex: 1; }
-.t-visual { flex: 1; display: flex; align-items: center; justify-content: center; }
+.t-visual { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px 0; }
 .t-date{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
 .t-title{font-size:1.4rem;color:var(--ink);margin-bottom:12px;}
-.t-content{color:var(--ink-dim);font-size:1rem;line-height: 1.7;}
+.t-content{color:var(--ink-dim);font-size:0.95rem;line-height: 1.7;}
 .milestone-tag{
   display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
   color:var(--gold-bright);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;
@@ -275,25 +280,26 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 @media (min-width: 768px) {
   .timeline::before { left: 50%; transform: translateX(-50%); }
   .t-dot { left: 50%; transform: translateX(-50%); }
-  .t-content-wrapper { flex-direction: row; align-items: center; padding-left: 0; width: 100%; gap: 60px; }
+  .t-content-wrapper { flex-direction: row; align-items: center; padding-left: 0; width: 100%; gap: 40px; }
   .t-item:nth-child(odd) .t-content-wrapper { flex-direction: row; }
-  .t-item:nth-child(odd) .t-text { text-align: right; padding-right: 30px; }
-  .t-item:nth-child(odd) .t-visual { padding-left: 30px; justify-content: flex-start; }
+  .t-item:nth-child(odd) .t-text { text-align: right; padding-right: 40px; }
+  .t-item:nth-child(odd) .t-visual { padding-left: 40px; justify-content: flex-start; }
   .t-item:nth-child(even) .t-content-wrapper { flex-direction: row-reverse; }
-  .t-item:nth-child(even) .t-text { text-align: left; padding-left: 30px; }
-  .t-item:nth-child(even) .t-visual { padding-right: 30px; justify-content: flex-end; }
+  .t-item:nth-child(even) .t-text { text-align: left; padding-left: 40px; }
+  .t-item:nth-child(even) .t-visual { padding-right: 40px; justify-content: flex-end; }
 }
 
 /* ====================== POLAROID TIMELINE ====================== */
-.polaroids { position: relative; width: 220px; height: 230px; display: block; }
+.polaroids { position: relative; width: 220px; height: 180px; display: block; margin: 0 auto; }
+@media (max-width: 768px) { .polaroids { transform: scale(0.9); height: 160px; margin-top: 10px; } }
 .polaroid {
-  position: absolute; background: #fafafa; padding: 10px 10px 32px 10px;
+  position: absolute; background: #fafafa; padding: 8px 8px 24px 8px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.5); border-radius: 4px;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, z-index 0s;
 }
-.polaroid img { width: 140px; height: 140px; object-fit: cover; background: #222; display: block; border-radius: 2px;}
-.p1 { transform: rotate(-8deg); left: -10px; top: 15px; z-index: 1; }
-.p2 { transform: rotate(10deg); right: -10px; top: -5px; z-index: 2; }
+.polaroid img { width: 120px; height: 120px; object-fit: cover; background: #222; display: block; border-radius: 2px;}
+.p1 { transform: rotate(-8deg); left: 0; top: 10px; z-index: 1; }
+.p2 { transform: rotate(10deg); right: 0; top: -5px; z-index: 2; }
 .polaroid:hover { transform: scale(1.15) rotate(0deg); z-index: 10; box-shadow: 0 18px 40px rgba(0,0,0,0.8); }
 
 /* ====================== SURAT SEMANGAT (TYPEWRITER) ====================== */
@@ -307,11 +313,12 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   background:linear-gradient(90deg, var(--gold), var(--rust)); border-radius:6px 6px 0 0;
 }
 .letter-paper .letter-to{ font-family:var(--script); font-size:1.8rem; color:var(--rust); margin-bottom:22px; }
-#mainLetterTyped .type-line{ font-family:var(--serif); font-size:1.08rem; line-height:1.85; margin:0 0 16px; }
+#mainLetterTyped { min-height: 200px; } /* Prevents layout jump */
+#mainLetterTyped .type-line{ font-family:var(--serif); font-size:1.05rem; line-height:1.8; margin:0 0 16px; }
 .letter-paper .letter-sign{ font-family:var(--script); font-size:1.5rem; color:var(--rust); text-align:right; margin-top:20px; }
 
 /* ====================== TV RETRO ====================== */
-.tv-wrapper { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+.tv-wrapper { max-width: 860px; margin: 0 auto; }
 .tv-casing {
   background: linear-gradient(135deg, #2b251d, #1a1610); border: 3px solid var(--gold-faint);
   border-radius: 28px; padding: 30px 40px 30px 30px; display: flex; gap: 24px;
@@ -322,10 +329,14 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   padding: 18px; box-shadow: inset 0 0 20px rgba(0,0,0,1), 0 0 0 2px #332d24;
 }
 .tv-screen {
-  position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 16px; overflow: hidden;
+  position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden;
   box-shadow: 0 0 15px rgba(199,162,74,0.1);
 }
-.tv-screen iframe { width: 100%; height: 100%; border: none; position: relative; z-index: 1; }
+/* Fallback for older browsers without aspect-ratio */
+@supports not (aspect-ratio: 16/9) {
+  .tv-screen { padding-top: 56.25%; }
+}
+.tv-screen iframe { position: absolute; top:0; left:0; width: 100%; height: 100%; border: none; z-index: 1; }
 .tv-screen::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
@@ -352,7 +363,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 
 /* ====================== ALASAN SAYANG (FLIP CARDS) ====================== */
 .reasons-grid{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; }
-.reason-card{ perspective:1000px; height:170px; }
+.reason-card{ perspective:1000px; height:170px; cursor: pointer; }
 .reason-inner{ position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; }
 .reason-card:hover .reason-inner, .reason-card.flipped .reason-inner{ transform:rotateY(180deg); }
 .reason-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
@@ -384,10 +395,10 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .dot.active{background:var(--gold);width:20px;border-radius:4px;}
 
 /* ====================== FOOTER ====================== */
-footer{ text-align:center;padding:80px 20px 60px; border-top:1px solid var(--gold-dim); }
+footer{ text-align:center;padding:80px 20px 100px; border-top:1px solid var(--gold-dim); }
 footer .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--gold-bright);max-width:600px;margin:0 auto 18px;}
 footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:22px;}
-footer .love-counter{ margin-top:0; }
+footer .love-counter{ margin-top:0; justify-content: center; }
 
 /* ====================== FLOATING WIDGETS ====================== */
 .float-btn {
@@ -405,20 +416,20 @@ footer .love-counter{ margin-top:0; }
   position: fixed; bottom: 22px; left: 22px; z-index: 150;
   display: flex; align-items: center; gap: 14px;
   background: rgba(27, 23, 18, 0.85); backdrop-filter: blur(8px);
-  border: 1px solid var(--gold-dim); padding: 8px 20px 8px 8px;
+  border: 1px solid var(--gold-dim); padding: 8px 16px 8px 8px;
   border-radius: 50px; box-shadow: 0 6px 20px rgba(0,0,0,.5);
   cursor: pointer; transition: all 0.3s ease;
 }
 .music-player:hover { border-color: var(--gold); transform: translateY(-3px); }
 .vinyl {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   background: repeating-radial-gradient(#111 0%, #111 10%, #222 12%, #111 14%);
   border: 2px solid #333; position: relative; display: flex; align-items: center; justify-content: center;
 }
-.vinyl::after { content: ''; width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 2px solid #000; }
+.vinyl::after { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); border: 2px solid #000; }
 .vinyl.playing { animation: vinylSpin 3s linear infinite; }
 @keyframes vinylSpin { 100% { transform: rotate(360deg); } }
-.spectrum { display: flex; gap: 4px; height: 18px; align-items: flex-end; opacity: 0.4; }
+.spectrum { display: flex; gap: 4px; height: 16px; align-items: flex-end; opacity: 0.4; }
 .spectrum.playing { opacity: 1; }
 .spectrum span { width: 3px; background: var(--gold-bright); border-radius: 2px; height: 4px; }
 .spectrum.playing span { animation: eq 1s ease-in-out infinite alternate; }
@@ -435,9 +446,9 @@ footer .love-counter{ margin-top:0; }
   width: 90%; max-width: 500px; text-align: center; z-index: 140; pointer-events: none;
 }
 #lyricsText {
-  font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--gold-bright);
-  text-shadow: 0 4px 12px rgba(0,0,0, 0.9); background: rgba(20, 15, 10, 0.55);
-  backdrop-filter: blur(6px); padding: 10px 24px; border-radius: 30px;
+  font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--gold-bright);
+  text-shadow: 0 4px 12px rgba(0,0,0, 0.9); background: rgba(20, 15, 10, 0.7);
+  backdrop-filter: blur(6px); padding: 8px 20px; border-radius: 30px;
   border: 1px solid rgba(199,162,74, 0.2); display: inline-block;
   opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; margin: 0;
 }
@@ -456,13 +467,13 @@ footer .love-counter{ margin-top:0; }
 /* ====================== MODAL KADO & SURAT ====================== */
 .overlay{
   position:fixed;inset:0;background:rgba(10,9,7,.85);backdrop-filter:blur(6px);
-  z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;
+  z-index:9999; display:flex;align-items:center;justify-content:center;padding:20px;
   opacity:0;pointer-events:none;transition:opacity .3s ease;
 }
 .overlay.show{opacity:1;pointer-events:auto;}
 .modal{
   background:var(--panel);border:1px solid var(--gold-dim);border-radius:var(--radius);
-  padding:32px;max-width:420px;width:100%; text-align: center;
+  padding:32px;max-width:420px;width:100%; text-align: center; position: relative;
 }
 .modal h3{color:var(--gold-bright);margin-bottom:8px;font-size:1.4rem;}
 .modal p.hint{color:var(--ink-dim);font-size:.9rem;margin-bottom:24px;}
@@ -476,15 +487,15 @@ footer .love-counter{ margin-top:0; }
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:12px 24px;border-radius:8px;border:1px solid var(--gold);
   background:var(--gold);color:var(--bg);font-weight:600;font-size:.95rem;
-  transition:.2s; width: 100%; cursor: pointer;
+  transition:.2s; width: 100%; cursor: pointer; margin-top: 5px;
 }
 .btn:hover{background:var(--gold-bright);}
 .btn.ghost{background:transparent;border-color:var(--ink-faint);color:var(--ink-dim); margin-top: 10px;}
 .btn.ghost:hover{background: rgba(255,255,255,0.05); color: var(--ink);}
 .error{color:var(--rust);font-size:.85rem;margin:-4px 0 16px;display:none;}
 
-.gift-modal { max-width: 500px; text-align: left; padding: 40px; background: #161310; border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-.gift-modal h3 { text-align: center; font-size: 1.8rem; margin-bottom: 24px; border-bottom: 1px solid var(--gold-dim); padding-bottom: 16px;}
+.gift-modal { max-width: 500px; text-align: left; padding: 40px 30px; background: #161310; border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+.gift-modal h3 { text-align: center; font-size: 1.6rem; margin-bottom: 24px; border-bottom: 1px solid var(--gold-dim); padding-bottom: 16px;}
 .gift-modal p { color: var(--ink); font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px; font-family: var(--serif);}
 .signature { font-family: var(--script); color: var(--gold-bright); font-size: 1.5rem; margin-top: 30px; text-align: right; }
 
@@ -495,7 +506,7 @@ footer .love-counter{ margin-top:0; }
 </head>
 <body class="intro-active">
 
-<!-- LOADER (transisi singkat setelah surat dibuka) -->
+<!-- LOADER -->
 <div id="loader"><div class="coin">❤️</div><p>Membuka kenangan...</p></div>
 
 <!-- ====================== INTRO: SURAT SEBELUM MASUK ====================== -->
@@ -511,7 +522,7 @@ footer .love-counter{ margin-top:0; }
       <div class="wax-seal">❤</div>
     </div>
     <p class="intro-tap-label" id="tapLabel">Ketuk amplopnya</p>
-    <button class="intro-continue-btn" id="introReadBtn" style="margin-top:26px;">Baca Suratnya 💌</button>
+    <button class="intro-readbtn" id="introReadBtn">Baca Suratnya 💌</button>
 
     <div class="letter-view" id="letterView">
       <p class="letter-heading">Untukmu,</p>
@@ -526,7 +537,7 @@ footer .love-counter{ margin-top:0; }
   <span class="brand">Sayangku</span>
 </div>
 
-<!-- AUDIO ELEMENT (Musik kamu sudah terpasang) -->
+<!-- AUDIO ELEMENT -->
 <audio id="bgMusic" loop>
   <source id="audioSource" src="https://www.image2url.com/r2/default/audio/1785427205949-aedf74ad-3c22-4ddf-a40a-5def0ccb49a4.mp3" type="audio/mpeg">
 </audio>
@@ -540,17 +551,17 @@ footer .love-counter{ margin-top:0; }
     <!-- GALLERY POLAROID HERO -->
     <div class="hero-gallery">
       <div class="polaroid-frame hg-main">
-        <img src="story/utama.jpeg" alt="Foto Utama Kita">
+        <img src="story/utama.jpeg" alt="Foto Utama Kita" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'">
       </div>
       <div class="hg-stack-container">
         <div class="polaroid-frame hg-small hg-s1">
-          <img src="story/berdua1.jpg" alt="Foto Stack 1">
+          <img src="story/berdua1.jpg" alt="Foto Stack 1" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=150&q=80'">
         </div>
         <div class="polaroid-frame hg-small hg-s2">
-          <img src="story/berdua2.jpg" alt="Foto Stack 2">
+          <img src="story/berdua2.jpg" alt="Foto Stack 2" onerror="this.src='https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=150&q=80'">
         </div>
         <div class="polaroid-frame hg-small hg-s3">
-          <img src="story/berdua3.jpg" alt="Foto Stack 3">
+          <img src="story/berdua3.jpg" alt="Foto Stack 3" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=150&q=80'">
         </div>
       </div>
     </div>
@@ -571,7 +582,7 @@ footer .love-counter{ margin-top:0; }
     <p>Seperti grafik, ada naik dan turun. Tapi bersamamu, aku selalu ingin terus berjalan maju.</p>
   </div>
   <div class="curve-wrap">
-    <svg id="curveSvg" viewBox="0 0 1000 260" preserveAspectRatio="none"></svg>
+    <svg id="curveSvg" viewBox="0 0 1000 120" preserveAspectRatio="none"></svg>
   </div>
   <div class="timeline" id="timelineList"></div>
 </section>
@@ -638,7 +649,7 @@ footer .love-counter{ margin-top:0; }
 <footer>
   <p class="quote">"Bertambahnya usiamu adalah pengingat betapa beruntungnya aku memilikimu di setiap fasenya."</p>
   <p class="targets">Selamat Ulang Tahun! &nbsp;•&nbsp; Mari Menua Bersama ❤️</p>
-  <div class="love-counter">🤍 <span>Dan aku masih pilih kamu, setiap harinya.</span></div>
+  <div class="love-counter" style="display:flex;">🤍 <span>Dan aku masih pilih kamu, setiap harinya.</span></div>
 </footer>
 
 <!-- KOTAK LIRIK MENGAMBANG -->
@@ -772,19 +783,25 @@ const LYRICS = [
    ========================================================= */
 function typeParagraphs(container, paragraphs, speed, onDone){
   container.innerHTML = "";
-  const cursor = document.createElement("span");
-  cursor.className = "type-cursor";
   let pIndex = 0;
 
   function nextParagraph(){
-    if(cursor.parentNode) cursor.parentNode.removeChild(cursor);
+    // Bersihkan kursor lama
+    const oldCursor = container.querySelector('.type-cursor');
+    if(oldCursor) oldCursor.remove();
+
     if(pIndex >= paragraphs.length){ if(onDone) onDone(); return; }
     const p = document.createElement("p");
     p.className = "type-line";
     container.appendChild(p);
+
+    const cursor = document.createElement("span");
+    cursor.className = "type-cursor";
     p.appendChild(cursor);
+
     let cIndex = 0;
     const text = paragraphs[pIndex];
+
     (function typeChar(){
       if(cIndex < text.length){
         cursor.insertAdjacentText("beforebegin", text[cIndex]);
@@ -918,28 +935,24 @@ function initParticles(){
   resize(); draw();
 }
 
-function moodY(mood){ return mood === 'up' ? 60 : mood === 'down' ? 200 : 130; }
-
+// Simplified Curve Line for Background Aesthetics
 function renderCurve(){
   const svg = document.getElementById('curveSvg');
-  const items = DATA.timeline;
-  if(items.length === 0) return;
-  const w = 1000, pad = 30;
-  const step = items.length > 1 ? (w - pad * 2) / (items.length - 1) : 0;
-  const pts = items.map((it, i) => ({ x: pad + step * i, y: moodY(it.mood), item: it }));
-  let d = `M ${pts[0].x} ${pts[0].y}`;
-  for(let i = 0; i < pts.length - 1; i++){
-    const p0 = pts[i], p1 = pts[i + 1];
-    const mx = (p0.x + p1.x) / 2;
-    d += ` C ${mx} ${p0.y}, ${mx} ${p1.y}, ${p1.x} ${p1.y}`;
-  }
-  let fillD = d + ` L ${pts[pts.length - 1].x} 260 L ${pts[0].x} 260 Z`;
-  let nodes = pts.map(p => {
-    const cls = p.item.milestone ? 'curve-node milestone' : 'curve-node';
-    return `<circle class="${cls}" cx="${p.x}" cy="${p.y}"></circle>`;
-  }).join('');
-  svg.innerHTML = `<defs><linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c7a24a" stop-opacity="0.35"/><stop offset="100%" stop-color="#c7a24a" stop-opacity="0"/></linearGradient></defs><path class="curve-fill" d="${fillD}" fill="url(#curveGrad)"></path><path class="curve-path" d="${d}"></path>${nodes}`;
-  setTimeout(() => { svg.querySelector('.curve-path').classList.add('animate'); svg.querySelector('.curve-fill').classList.add('animate'); }, 100);
+  const w = 1000, h = 120;
+  let d = `M 50 ${h/2} Q 250 10, 500 ${h/2} T 950 ${h/2}`;
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="curveGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#c7a24a" stop-opacity="0.1"/>
+        <stop offset="50%" stop-color="#c7a24a" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#c7a24a" stop-opacity="0.1"/>
+      </linearGradient>
+    </defs>
+    <path class="curve-path" d="${d}"></path>
+  `;
+  setTimeout(() => { 
+    if(svg.querySelector('.curve-path')) svg.querySelector('.curve-path').classList.add('animate'); 
+  }, 100);
 }
 
 function renderTimeline(){
@@ -1022,7 +1035,7 @@ document.getElementById('closeGift').addEventListener('click', () => giftOverlay
 document.getElementById('pinSubmit').addEventListener('click', () => { if(pinInput.value === DATA.pinKado){ pinOverlay.classList.remove('show'); giftOverlay.classList.add('show'); } else { pinError.style.display = 'block'; } });
 pinInput.addEventListener('keydown', e => { if(e.key === 'Enter') document.getElementById('pinSubmit').click(); });
 
-/* Jejak hati mengikuti kursor, ringan & dibatasi frekuensinya */
+/* Jejak hati mengikuti kursor */
 (function heartTrail(){
   let last = 0;
   window.addEventListener('mousemove', (e) => {
