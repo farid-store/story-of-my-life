@@ -232,7 +232,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 
 /* ====================== KURVA PERJALANAN ====================== */
 .curve-wrap{max-width:900px;margin:0 auto 40px; overflow:hidden;}
-#curveSvg{width:100%;height:100px;display:block;} /* Height adjusted so it doesn't break aspect ratio badly */
+#curveSvg{width:100%;height:100px;display:block;} 
 .curve-path{
   fill:none;stroke:var(--gold);stroke-width:2;
   stroke-dasharray:2000;stroke-dashoffset:2000; transition:stroke-dashoffset 2s cubic-bezier(.2,.7,.2,1);
@@ -313,9 +313,99 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   background:linear-gradient(90deg, var(--gold), var(--rust)); border-radius:6px 6px 0 0;
 }
 .letter-paper .letter-to{ font-family:var(--script); font-size:1.8rem; color:var(--rust); margin-bottom:22px; }
-#mainLetterTyped { min-height: 200px; } /* Prevents layout jump */
+#mainLetterTyped { min-height: 200px; } 
 #mainLetterTyped .type-line{ font-family:var(--serif); font-size:1.05rem; line-height:1.8; margin:0 0 16px; }
 .letter-paper .letter-sign{ font-family:var(--script); font-size:1.5rem; color:var(--rust); text-align:right; margin-top:20px; }
+
+/* ====================== ALASAN SAYANG (FLIP CARDS) ====================== */
+.reasons-grid{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; }
+.reason-card{ perspective:1000px; height:170px; cursor: pointer; }
+.reason-inner{ position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; }
+.reason-card:hover .reason-inner, .reason-card.flipped .reason-inner{ transform:rotateY(180deg); }
+.reason-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
+.reason-front{ background:var(--panel); border:1px solid var(--gold-dim); }
+.reason-front .num{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:.15em; margin-bottom:10px; }
+.reason-front .label{ color:var(--ink); font-family:var(--serif); font-size:1.1rem; }
+.reason-back{ background:linear-gradient(150deg,var(--rust),#7a3a2a); transform:rotateY(180deg); color:#fdf3e6; font-family:var(--serif); font-size:1rem; line-height:1.5; }
+
+/* ====================== FILM ROLL DIAGONAL ====================== */
+.film-section {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+  background: var(--bg-alt); 
+}
+.film-container {
+  transform: rotate(-6deg) scale(1.15); 
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 60px 0 20px;
+}
+.film-strip {
+  width: 100vw;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.9);
+}
+.film-track {
+  display: flex;
+  gap: 15px;
+  width: max-content;
+  position: relative;
+  background: #050505;
+  padding: 30px 15px;
+  cursor: grab;
+}
+.film-track::before, .film-track::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 14px;
+  background-image: repeating-linear-gradient(90deg, var(--bg-alt) 0px, var(--bg-alt) 16px, transparent 16px, transparent 32px);
+  z-index: 5;
+}
+.film-track::before { top: 8px; }
+.film-track::after { bottom: 8px; }
+
+.film-frame {
+  width: 220px;
+  aspect-ratio: 4/3;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #222;
+}
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%) sepia(20%); 
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+.film-track:hover .film-frame img {
+  filter: grayscale(50%) sepia(30%);
+}
+.film-track .film-frame:hover img {
+  filter: grayscale(0%) sepia(0%); 
+  transform: scale(1.05);
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.track-left { animation: scrollLeft 40s linear infinite; }
+.track-right { animation: scrollRight 40s linear infinite; }
+.film-track:hover { animation-play-state: paused; }
+
+@media (max-width: 768px) {
+  .film-frame { width: 160px; } 
+  .film-container { transform: rotate(-8deg) scale(1.25); }
+}
 
 /* ====================== TV RETRO ====================== */
 .tv-wrapper { max-width: 860px; margin: 0 auto; }
@@ -332,7 +422,6 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden;
   box-shadow: 0 0 15px rgba(199,162,74,0.1);
 }
-/* Fallback for older browsers without aspect-ratio */
 @supports not (aspect-ratio: 16/9) {
   .tv-screen { padding-top: 56.25%; }
 }
@@ -360,17 +449,6 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   .tv-controls { width: 100%; flex-direction: row; gap: 30px; }
   .tv-speaker { min-height: 44px; width: 100%; background: repeating-linear-gradient(to right, transparent, transparent 4px, rgba(0,0,0,0.6) 4px, rgba(0,0,0,0.6) 8px); }
 }
-
-/* ====================== ALASAN SAYANG (FLIP CARDS) ====================== */
-.reasons-grid{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; }
-.reason-card{ perspective:1000px; height:170px; cursor: pointer; }
-.reason-inner{ position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; }
-.reason-card:hover .reason-inner, .reason-card.flipped .reason-inner{ transform:rotateY(180deg); }
-.reason-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
-.reason-front{ background:var(--panel); border:1px solid var(--gold-dim); }
-.reason-front .num{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:.15em; margin-bottom:10px; }
-.reason-front .label{ color:var(--ink); font-family:var(--serif); font-size:1.1rem; }
-.reason-back{ background:linear-gradient(150deg,var(--rust),#7a3a2a); transform:rotateY(180deg); color:#fdf3e6; font-family:var(--serif); font-size:1rem; line-height:1.5; }
 
 /* ====================== GALLERY FOTO ====================== */
 .slider{
@@ -610,6 +688,27 @@ footer .love-counter{ margin-top:0; justify-content: center; }
   <div class="reasons-grid" id="reasonsGrid"></div>
 </section>
 
+<!-- FILM ROLL SECTION (Tambahan Baru) -->
+<section class="film-section" id="filmSection">
+  <div class="section-head" style="position:relative; z-index:10;">
+    <span class="eyebrow">Memori Berputar</span>
+    <h2>Pita Kenangan</h2>
+    <p>Berjalan terus tanpa henti, seperti waktu yang kita habiskan berdua.</p>
+  </div>
+  
+  <div class="film-container">
+    <!-- Roll 1 (Bergerak ke Kiri) -->
+    <div class="film-strip">
+      <div class="film-track track-left" id="filmTrack1"></div>
+    </div>
+    
+    <!-- Roll 2 (Bergerak ke Kanan) -->
+    <div class="film-strip">
+      <div class="film-track track-right" id="filmTrack2"></div>
+    </div>
+  </div>
+</section>
+
 <!-- VIDEO (RETRO TV) -->
 <section id="tv-section">
   <div class="section-head">
@@ -706,7 +805,6 @@ const DATA = {
     subtitle: "Merayakan kamu, hari ini, esok, dan untuk waktu yang sangat lama."
   },
 
-  // Surat pembuka di dalam amplop — singkat, manis, jangan kepanjangan
   introLetter: [
     "Hai, kamu.",
     "Sebelum masuk ke acara utamanya, aku mau bilang beberapa hal dulu.",
@@ -714,7 +812,6 @@ const DATA = {
     "Ada cerita kita yang mau aku tunjukin di halaman berikutnya. Siap?"
   ],
 
-  // Surat semangat di tengah halaman — yang ini boleh sedikit lebih panjang
   mainLetter: [
     "Aku tahu, nggak semua hari belakangan ini terasa ringan.",
     "Tapi aku lihat kamu tetap bangun, tetap coba yang terbaik, tetap jadi orang paling hangat yang aku kenal — walau capek.",
@@ -763,7 +860,26 @@ const DATA = {
 };
 
 /* =========================================================
-   2. DATA LIRIK LAGU
+   2. DATA FILM ROLL (Foto untuk pita film)
+   ========================================================= */
+const FILM_PHOTOS_1 = [
+  "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=400&q=80"
+];
+
+const FILM_PHOTOS_2 = [
+  "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=400&q=80",
+  "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80"
+];
+
+/* =========================================================
+   3. DATA LIRIK LAGU
    ========================================================= */
 const LYRICS = [
   { time: 0, text: "🎵 ada yang hilang 🎵" },
@@ -779,14 +895,13 @@ const LYRICS = [
 ];
 
 /* =========================================================
-   3. GENERIC TYPEWRITER
+   4. GENERIC TYPEWRITER
    ========================================================= */
 function typeParagraphs(container, paragraphs, speed, onDone){
   container.innerHTML = "";
   let pIndex = 0;
 
   function nextParagraph(){
-    // Bersihkan kursor lama
     const oldCursor = container.querySelector('.type-cursor');
     if(oldCursor) oldCursor.remove();
 
@@ -817,7 +932,7 @@ function typeParagraphs(container, paragraphs, speed, onDone){
 }
 
 /* =========================================================
-   4. INTRO SURAT (AMPLOP)
+   5. INTRO SURAT (AMPLOP)
    ========================================================= */
 const envelope = document.getElementById('envelope');
 const introReadBtn = document.getElementById('introReadBtn');
@@ -865,7 +980,7 @@ document.getElementById('musicPlayerWidget').addEventListener('click', () => {
 });
 
 /* =========================================================
-   5. RENDER KONTEN UTAMA
+   6. RENDER KONTEN UTAMA
    ========================================================= */
 document.getElementById('eyebrowText').textContent = DATA.banner.eyebrow;
 document.getElementById('bannerTitle').innerHTML = DATA.banner.title;
@@ -887,6 +1002,7 @@ document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
   document.querySelectorAll('#dayCount').forEach(el => el.textContent = diffDays.toLocaleString('id-ID'));
 })();
 
+// Lyrics Sync
 const lyricsText = document.getElementById('lyricsText');
 let currentLyricIndex = -1;
 bgMusic.addEventListener('timeupdate', () => {
@@ -907,6 +1023,7 @@ bgMusic.addEventListener('timeupdate', () => {
   }
 });
 
+// Particles
 function initParticles(){
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -935,7 +1052,7 @@ function initParticles(){
   resize(); draw();
 }
 
-// Simplified Curve Line for Background Aesthetics
+// Background Curve
 function renderCurve(){
   const svg = document.getElementById('curveSvg');
   const w = 1000, h = 120;
@@ -955,6 +1072,7 @@ function renderCurve(){
   }, 100);
 }
 
+// Timeline
 function renderTimeline(){
   const el = document.getElementById('timelineList');
   const fImg1 = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80";
@@ -981,6 +1099,7 @@ function renderTimeline(){
   renderCurve();
 }
 
+// Typewriter Letter
 function renderMainLetter(){
   const section = document.getElementById('letterSection');
   const obs = new IntersectionObserver((entries) => {
@@ -996,6 +1115,7 @@ function renderMainLetter(){
   obs.observe(section);
 }
 
+// Reasons Cards
 function renderReasons(){
   const grid = document.getElementById('reasonsGrid');
   grid.innerHTML = DATA.reasons.map((r, i) => `
@@ -1014,6 +1134,24 @@ function renderReasons(){
   });
 }
 
+// Film Rolls
+function renderFilmRolls(){
+  const track1 = document.getElementById('filmTrack1');
+  const track2 = document.getElementById('filmTrack2');
+  
+  function buildTrack(photos, container) {
+    let html = photos.map(src => `<div class="film-frame"><img src="${src}"></div>`).join('');
+    // Gandakan html agar animasi perulangan (infinite loop) tidak pernah putus
+    container.innerHTML = html + html; 
+  }
+  
+  if(track1 && track2) {
+     buildTrack(FILM_PHOTOS_1, track1);
+     buildTrack(FILM_PHOTOS_2, track2);
+  }
+}
+
+// Gallery Slider
 let sliderIndex = 0, sliderTimer;
 function renderGallery(){
   const slides = document.getElementById('slides');
@@ -1028,6 +1166,7 @@ function renderGallery(){
   restartAutoplay();
 }
 
+// Modals
 const lockBtn = document.getElementById('lockBtn'), pinOverlay = document.getElementById('pinOverlay'), giftOverlay = document.getElementById('giftOverlay'), pinInput = document.getElementById('pinInput'), pinError = document.getElementById('pinError');
 lockBtn.addEventListener('click', () => { pinInput.value = ''; pinError.style.display = 'none'; pinOverlay.classList.add('show'); pinInput.focus(); });
 document.getElementById('pinCancel').addEventListener('click', () => pinOverlay.classList.remove('show'));
@@ -1054,10 +1193,12 @@ pinInput.addEventListener('keydown', e => { if(e.key === 'Enter') document.getEl
   });
 })();
 
+// Initialize all features
 initParticles();
 renderTimeline();
 renderMainLetter();
 renderReasons();
+renderFilmRolls();
 renderGallery();
 </script>
 </body>
