@@ -302,32 +302,6 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .p2 { transform: rotate(10deg); right: 0; top: -5px; z-index: 2; }
 .polaroid:hover { transform: scale(1.15) rotate(0deg); z-index: 10; box-shadow: 0 18px 40px rgba(0,0,0,0.8); }
 
-/* ====================== SURAT SEMANGAT (TYPEWRITER) ====================== */
-#letterSection{ max-width:760px; margin:0 auto; }
-.letter-paper{
-  background:var(--paper); color:var(--paper-ink); border-radius:6px;
-  padding:clamp(28px,5vw,56px); box-shadow:0 30px 70px rgba(0,0,0,.45); position:relative;
-}
-.letter-paper::before{
-  content:''; position:absolute; top:0; left:0; right:0; height:6px;
-  background:linear-gradient(90deg, var(--gold), var(--rust)); border-radius:6px 6px 0 0;
-}
-.letter-paper .letter-to{ font-family:var(--script); font-size:1.8rem; color:var(--rust); margin-bottom:22px; }
-#mainLetterTyped { min-height: 200px; } 
-#mainLetterTyped .type-line{ font-family:var(--serif); font-size:1.05rem; line-height:1.8; margin:0 0 16px; }
-.letter-paper .letter-sign{ font-family:var(--script); font-size:1.5rem; color:var(--rust); text-align:right; margin-top:20px; }
-
-/* ====================== ALASAN SAYANG (FLIP CARDS) ====================== */
-.reasons-grid{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; }
-.reason-card{ perspective:1000px; height:170px; cursor: pointer; }
-.reason-inner{ position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; }
-.reason-card:hover .reason-inner, .reason-card.flipped .reason-inner{ transform:rotateY(180deg); }
-.reason-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
-.reason-front{ background:var(--panel); border:1px solid var(--gold-dim); }
-.reason-front .num{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:.15em; margin-bottom:10px; }
-.reason-front .label{ color:var(--ink); font-family:var(--serif); font-size:1.1rem; }
-.reason-back{ background:linear-gradient(150deg,var(--rust),#7a3a2a); transform:rotateY(180deg); color:#fdf3e6; font-family:var(--serif); font-size:1rem; line-height:1.5; }
-
 /* ====================== FILM ROLL DIAGONAL ====================== */
 .film-section {
   position: relative;
@@ -406,6 +380,32 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   .film-frame { width: 160px; } 
   .film-container { transform: rotate(-8deg) scale(1.25); }
 }
+
+/* ====================== SURAT SEMANGAT (TYPEWRITER) ====================== */
+#letterSection{ max-width:760px; margin:0 auto; }
+.letter-paper{
+  background:var(--paper); color:var(--paper-ink); border-radius:6px;
+  padding:clamp(28px,5vw,56px); box-shadow:0 30px 70px rgba(0,0,0,.45); position:relative;
+}
+.letter-paper::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:6px;
+  background:linear-gradient(90deg, var(--gold), var(--rust)); border-radius:6px 6px 0 0;
+}
+.letter-paper .letter-to{ font-family:var(--script); font-size:1.8rem; color:var(--rust); margin-bottom:22px; }
+#mainLetterTyped { min-height: 200px; } 
+#mainLetterTyped .type-line{ font-family:var(--serif); font-size:1.05rem; line-height:1.8; margin:0 0 16px; }
+.letter-paper .letter-sign{ font-family:var(--script); font-size:1.5rem; color:var(--rust); text-align:right; margin-top:20px; }
+
+/* ====================== ALASAN SAYANG (FLIP CARDS) ====================== */
+.reasons-grid{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; }
+.reason-card{ perspective:1000px; height:170px; cursor: pointer; }
+.reason-inner{ position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d; }
+.reason-card:hover .reason-inner, .reason-card.flipped .reason-inner{ transform:rotateY(180deg); }
+.reason-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:18px; text-align:center; }
+.reason-front{ background:var(--panel); border:1px solid var(--gold-dim); }
+.reason-front .num{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:.15em; margin-bottom:10px; }
+.reason-front .label{ color:var(--ink); font-family:var(--serif); font-size:1.1rem; }
+.reason-back{ background:linear-gradient(150deg,var(--rust),#7a3a2a); transform:rotateY(180deg); color:#fdf3e6; font-family:var(--serif); font-size:1rem; line-height:1.5; }
 
 /* ====================== TV RETRO ====================== */
 .tv-wrapper { max-width: 860px; margin: 0 auto; }
@@ -615,8 +615,8 @@ footer .love-counter{ margin-top:0; justify-content: center; }
   <span class="brand">Sayangku</span>
 </div>
 
-<!-- AUDIO ELEMENT -->
-<audio id="bgMusic" loop>
+<!-- AUDIO ELEMENT (Diperbaiki dengan preload="auto") -->
+<audio id="bgMusic" loop preload="auto">
   <source id="audioSource" src="https://www.image2url.com/r2/default/audio/1785427205949-aedf74ad-3c22-4ddf-a40a-5def0ccb49a4.mp3" type="audio/mpeg">
 </audio>
 
@@ -665,6 +665,27 @@ footer .love-counter{ margin-top:0; justify-content: center; }
   <div class="timeline" id="timelineList"></div>
 </section>
 
+<!-- FILM ROLL SECTION (Dipindah ke atas sebelum surat) -->
+<section class="film-section" id="filmSection">
+  <div class="section-head" style="position:relative; z-index:10;">
+    <span class="eyebrow">Memori Berputar</span>
+    <h2>Pita Kenangan</h2>
+    <p>Berjalan terus tanpa henti, seperti waktu yang kita habiskan berdua.</p>
+  </div>
+  
+  <div class="film-container">
+    <!-- Roll 1 (Bergerak ke Kiri) -->
+    <div class="film-strip">
+      <div class="film-track track-left" id="filmTrack1"></div>
+    </div>
+    
+    <!-- Roll 2 (Bergerak ke Kanan) -->
+    <div class="film-strip">
+      <div class="film-track track-right" id="filmTrack2"></div>
+    </div>
+  </div>
+</section>
+
 <!-- SURAT SEMANGAT (TYPEWRITER SAAT SCROLL) -->
 <section id="letterSection">
   <div class="section-head">
@@ -686,27 +707,6 @@ footer .love-counter{ margin-top:0; justify-content: center; }
     <p>Balik tiap kartunya, ya.</p>
   </div>
   <div class="reasons-grid" id="reasonsGrid"></div>
-</section>
-
-<!-- FILM ROLL SECTION (Tambahan Baru) -->
-<section class="film-section" id="filmSection">
-  <div class="section-head" style="position:relative; z-index:10;">
-    <span class="eyebrow">Memori Berputar</span>
-    <h2>Pita Kenangan</h2>
-    <p>Berjalan terus tanpa henti, seperti waktu yang kita habiskan berdua.</p>
-  </div>
-  
-  <div class="film-container">
-    <!-- Roll 1 (Bergerak ke Kiri) -->
-    <div class="film-strip">
-      <div class="film-track track-left" id="filmTrack1"></div>
-    </div>
-    
-    <!-- Roll 2 (Bergerak ke Kanan) -->
-    <div class="film-strip">
-      <div class="film-track track-right" id="filmTrack2"></div>
-    </div>
-  </div>
 </section>
 
 <!-- VIDEO (RETRO TV) -->
@@ -932,7 +932,7 @@ function typeParagraphs(container, paragraphs, speed, onDone){
 }
 
 /* =========================================================
-   5. INTRO SURAT (AMPLOP)
+   5. INTRO SURAT & AUDIO LOGIC (UPDATED)
    ========================================================= */
 const envelope = document.getElementById('envelope');
 const introReadBtn = document.getElementById('introReadBtn');
@@ -942,20 +942,21 @@ const introOverlay = document.getElementById('introOverlay');
 const loader = document.getElementById('loader');
 const bgMusic = document.getElementById('bgMusic');
 
-envelope.addEventListener('click', () => {
-  if(envelope.classList.contains('open')) return;
-  envelope.classList.add('open');
-  setTimeout(() => introReadBtn.classList.add('show'), 500);
-});
-
-introReadBtn.addEventListener('click', () => {
-  letterView.classList.add('show');
-  introReadBtn.style.pointerEvents = 'none';
-  introReadBtn.style.opacity = '0';
-  typeParagraphs(document.getElementById('introTyped'), DATA.introLetter, 26, () => {
-    introContinueBtn.classList.add('show');
-  });
-});
+// Fungsi untuk memastikan audio jalan dengan aman dari blokir browser
+let audioHasStarted = false;
+function playAudioSecurely() {
+  if (audioHasStarted) return;
+  const playPromise = bgMusic.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      toggleAudio(true);
+      audioHasStarted = true;
+    }).catch(error => {
+      console.log("Autoplay ditahan browser, menunggu interaksi user:", error);
+      toggleAudio(false);
+    });
+  }
+}
 
 function toggleAudio(isPlaying){
   const vinyl = document.getElementById('vinylDisc');
@@ -964,20 +965,46 @@ function toggleAudio(isPlaying){
   else { vinyl.classList.remove('playing'); spectrum.classList.remove('playing'); }
 }
 
+// Interaksi 1: Klik Amplop (Coba paksa jalankan lagu disini)
+envelope.addEventListener('click', () => {
+  if(envelope.classList.contains('open')) return;
+  envelope.classList.add('open');
+  setTimeout(() => introReadBtn.classList.add('show'), 500);
+  
+  // Panggil audio pertama kali disini agar lolos security check browser
+  playAudioSecurely();
+});
+
+// Interaksi 2: Buka Surat
+introReadBtn.addEventListener('click', () => {
+  letterView.classList.add('show');
+  introReadBtn.style.pointerEvents = 'none';
+  introReadBtn.style.opacity = '0';
+  playAudioSecurely(); // Panggil lagi jika yg pertama gagal
+  typeParagraphs(document.getElementById('introTyped'), DATA.introLetter, 26, () => {
+    introContinueBtn.classList.add('show');
+  });
+});
+
+// Interaksi 3: Masuk ke halaman utama
 introContinueBtn.addEventListener('click', () => {
   introOverlay.classList.add('hide');
   loader.classList.add('show');
-  bgMusic.play().then(() => toggleAudio(true)).catch(() => {});
+  
+  playAudioSecurely(); // Panggil lagi sebagai pertahanan terakhir
+
   setTimeout(() => {
     loader.classList.remove('show');
     document.body.classList.remove('intro-active');
   }, 1100);
 });
 
+// Widget Music Player
 document.getElementById('musicPlayerWidget').addEventListener('click', () => {
   if(bgMusic.paused){ bgMusic.play().then(() => toggleAudio(true)).catch(() => {}); }
   else { bgMusic.pause(); toggleAudio(false); }
 });
+
 
 /* =========================================================
    6. RENDER KONTEN UTAMA
