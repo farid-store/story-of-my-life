@@ -67,27 +67,58 @@ body::before{
 }
 .brand{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);}
 
-/* ====================== HERO SECTION ====================== */
+/* ====================== HERO SECTION & HERO POLAROIDS ====================== */
 .hero{
   position:relative;min-height:100vh; display:flex;flex-direction:column;
-  align-items:center;justify-content:center; text-align:center;padding:120px 20px 80px; overflow:hidden;
+  align-items:center;justify-content:center; text-align:center;padding:90px 20px 80px; overflow:hidden;
 }
 #particles{position:absolute;inset:0;z-index:0;}
-.hero-inner{position:relative;z-index:1;max-width:800px;}
+.hero-inner{position:relative;z-index:1;max-width:800px; display:flex; flex-direction:column; align-items:center;}
 .eyebrow{
   font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:18px;display:inline-block;
+  color:var(--gold);margin-bottom:24px;display:inline-block;
   border:1px solid var(--gold-dim);padding:6px 16px;border-radius:100px;
   background: rgba(14, 13, 11, 0.4); backdrop-filter: blur(4px);
 }
-.hero h1{ font-size:clamp(2.6rem,7vw,5.5rem); font-weight:400; letter-spacing:-0.01em; color:var(--ink); margin-bottom:22px; }
+
+/* Kumpulan Polaroid Hero (Atas) */
+.hero-gallery {
+  position: relative; width: 100%; max-width: 320px; height: 310px; 
+  margin: 0 auto 30px auto; display: flex; justify-content: center;
+}
+.polaroid-frame {
+  background: #fafafa; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  border-radius: 4px; cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, z-index 0s;
+}
+.polaroid-frame img {
+  width: 100%; height: 100%; object-fit: cover; background: #222; border-radius: 2px;
+}
+.polaroid-frame:hover { z-index: 20 !important; box-shadow: 0 20px 45px rgba(0,0,0,0.8); }
+
+.hg-main {
+  width: 170px; height: 200px; padding: 10px 10px 32px 10px;
+  position: absolute; top: 0; z-index: 10; transform: rotate(-3deg);
+}
+.hg-main:hover { transform: scale(1.15) rotate(0deg); }
+
+.hg-stack-container {
+  position: absolute; top: 150px; display: flex; justify-content: center; width: 100%;
+}
+.hg-small { width: 95px; height: 115px; padding: 6px 6px 22px 6px; }
+.hg-small:hover { transform: scale(1.3) rotate(0deg); }
+.hg-s1 { transform: rotate(-16deg); margin-right: -25px; z-index: 3; margin-top: 5px;}
+.hg-s2 { transform: rotate(4deg); z-index: 4; margin-top: 25px;}
+.hg-s3 { transform: rotate(18deg); margin-left: -25px; z-index: 2; margin-top: 0px;}
+
+.hero h1{ font-size:clamp(2.4rem,7vw,5rem); font-weight:400; letter-spacing:-0.01em; color:var(--ink); margin-bottom:16px; }
 .hero h1 em{font-style:italic;color:var(--gold-bright);font-weight:300;}
 .hero p.subtitle{ color:var(--ink-dim);font-size:clamp(1.05rem,2vw,1.2rem); max-width:560px;margin:0 auto; }
 .scroll-cue{
-  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:8px;
   color:var(--ink-faint);font-family:var(--mono);font-size:11px;letter-spacing:.15em;
-  animation:bob 2.4s ease-in-out infinite;
+  animation:bob 2.4s ease-in-out infinite; z-index:10;
 }
 @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
 .scroll-cue .line{width:1px;height:28px;background:linear-gradient(var(--gold),transparent);}
@@ -158,7 +189,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
   .t-item:nth-child(even) .t-visual { padding-right: 30px; justify-content: flex-end; }
 }
 
-/* ====================== POLAROID ====================== */
+/* ====================== POLAROID TIMELINE ====================== */
 .polaroids { position: relative; width: 220px; height: 230px; display: block; }
 .polaroid { 
   position: absolute; background: #fafafa; padding: 10px 10px 32px 10px; 
@@ -170,7 +201,7 @@ section{padding:100px clamp(20px,6vw,56px);position:relative;}
 .p2 { transform: rotate(10deg); right: -10px; top: -5px; z-index: 2; }
 .polaroid:hover { transform: scale(1.15) rotate(0deg); z-index: 10; box-shadow: 0 18px 40px rgba(0,0,0,0.8); }
 
-/* ====================== TV RETRO (VIDEO KITA) ====================== */
+/* ====================== TV RETRO ====================== */
 .tv-wrapper { max-width: 860px; margin: 0 auto; padding: 0 20px; }
 .tv-casing {
   background: linear-gradient(135deg, #2b251d, #1a1610); border: 3px solid var(--gold-faint);
@@ -237,7 +268,7 @@ footer{ text-align:center;padding:80px 20px 60px; border-top:1px solid var(--gol
 footer .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.4vw,1.5rem);color:var(--gold-bright);max-width:600px;margin:0 auto 18px;}
 footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);}
 
-/* ====================== FLOATING MUSIC & GIFT BUTTON ====================== */
+/* ====================== FLOATING WIDGETS ====================== */
 .float-btn {
   position:fixed; bottom:22px; right:22px; z-index:150;
   width:52px; height:52px; border-radius:50%;
@@ -321,7 +352,6 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 .btn.ghost:hover{background: rgba(255,255,255,0.05); color: var(--ink);}
 .error{color:var(--rust);font-size:.85rem;margin:-4px 0 16px;display:none;}
 
-/* Desain Surat Cinta */
 .gift-modal { max-width: 500px; text-align: left; padding: 40px; background: #161310; border-color: var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
 .gift-modal h3 { text-align: center; font-size: 1.8rem; margin-bottom: 24px; border-bottom: 1px solid var(--gold-dim); padding-bottom: 16px;}
 .gift-modal p { color: var(--ink); font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px; font-family: var(--serif);}
@@ -348,6 +378,27 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   <canvas id="particles"></canvas>
   <div class="hero-inner">
     <span class="eyebrow" id="eyebrowText">Bab Baru</span>
+    
+    <!-- GALLERY POLAROID HERO (TUMPUKAN FOTO) -->
+    <div class="hero-gallery">
+      <!-- Foto Utama -->
+      <div class="polaroid-frame hg-main">
+        <img src="https://drive.google.com/uc?export=view&id=13ODd8bLOMZsKPWryD_fCuDBh-JGpIV_S" alt="Foto Utama Kita">
+      </div>
+      <!-- Tumpukan 3 Foto di Bawahnya -->
+      <div class="hg-stack-container">
+        <div class="polaroid-frame hg-small hg-s1">
+          <img src="https://drive.google.com/uc?export=view&id=1T7vmFUcKwsiP6t0C9Ft7QL0HNK6S-wBi" alt="Foto Stack 1">
+        </div>
+        <div class="polaroid-frame hg-small hg-s2">
+          <img src="https://drive.google.com/uc?export=view&id=1SXm3ZF0bOh_DeyJN_GyX4kbVfUNLdCeb" alt="Foto Stack 2">
+        </div>
+        <div class="polaroid-frame hg-small hg-s3">
+          <img src="https://drive.google.com/uc?export=view&id=1SXm3ZF0bOh_DeyJN_GyX4kbVfUNLdCeb" alt="Foto Stack 3">
+        </div>
+      </div>
+    </div>
+    
     <h1 id="bannerTitle">Perjalanan <em>Kita</em></h1>
     <p class="subtitle" id="bannerSubtitle">Merayakan kamu, hari ini, esok, dan untuk waktu yang sangat lama.</p>
   </div>
@@ -427,7 +478,6 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
   <div class="modal">
     <h3>Ada Kado Rahasia!</h3>
     <p class="hint">Coba tebak PIN-nya. Clue: Tanggal jadian kita (DDMM)</p>
-    <!-- Ganti maxlength kalau PIN kamu lebih/kurang dari 4 angka -->
     <input type="password" id="pinInput" placeholder="••••" inputmode="numeric" maxlength="4">
     <p class="error" id="pinError">Salah wleee, coba lagi!</p>
     <button class="btn" id="pinSubmit">Buka Kado</button>
@@ -449,12 +499,11 @@ footer .targets{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text
 
 <script>
 /* =========================================================
-   1. DATA KONTEN (SILAKAN UBAH TEKS / FOTO DI SINI)
+   1. DATA KONTEN
    ========================================================= */
 const DATA = {
-  pinKado: "1212", // Password kado (Contoh: "1212" untuk tanggal 12 bulan 12)
+  pinKado: "1212", 
   
-  // Link Video YouTube kompilasi kalian 
   tvVideoUrl: "https://www.youtube.com/watch?v=jfKfPfyJRdk", 
 
   banner: {
@@ -463,14 +512,12 @@ const DATA = {
     subtitle: "Merayakan kamu, hari ini, esok, dan untuk waktu yang sangat lama."
   },
 
-  // Foto untuk Galeri
   photos: [
     { url: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80", caption: "Kencan kita yang selalu aku ingat." },
     { url: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80", caption: "Liburan bareng, semoga secepatnya lagi!" },
     { url: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=800&q=80", caption: "Senyum favoritku di seluruh dunia." }
   ],
 
-  // Kisah perjalanan kalian. Mood: 'up' (Bahagia), 'down' (Masa Sulit/LDR), 'neutral' (Biasa aja)
   timeline: [
     { 
       date: "Awal Ketemu", title: "Takdir yang Lucu", 
@@ -496,26 +543,23 @@ const DATA = {
 };
 
 /* =========================================================
-   2. DATA LIRIK LAGU (Sesuaikan waktunya dengan lagu)
-   time: detik ke berapa lirik muncul
-   text: liriknya
+   2. DATA LIRIK LAGU
    ========================================================= */
 const LYRICS = [
   { time: 0, text: "🎵 ada yang hilang 🎵" },
   { time: 2, text: "dari ku belakangan..." },
   { time: 4, text: "sedang tak mudah..." },
   { time: 8, text: "bertemu rasa senang..." },
-  { time: 10, text: "sedang ku cari..." }, // Teks kosong agar hilang saat jeda musik
+  { time: 10, text: "" }, 
   { time: 11, text: ".. yang jadi pencetusnya 🎵🎵🎵" },
-  { time: 15, text: "mungkin hilangnya" }, // Teks kosong agar hilang saat jeda musik
+  { time: 15, text: "" }, 
   { time: 16, text: "atas siklus hidupku🎵🎵🎵" },
   { time: 19, text: "mungkin 🎵🎵🎵" },
-  { time: 21, text: "aku selalu tak bisa" } // Teks kosong agar hilang saat jeda musik
+  { time: 21, text: "aku selalu tak bisa" } 
 ];
 
-
 /* =========================================================
-   3. LOGIKA APLIKASI (JANGAN UBAH DI BAWAH INI KECUALI PAHAM)
+   3. LOGIKA APLIKASI
    ========================================================= */
 document.getElementById('eyebrowText').textContent = DATA.banner.eyebrow;
 document.getElementById('bannerTitle').innerHTML = DATA.banner.title;
@@ -529,7 +573,6 @@ function getEmbedUrl(url) {
 }
 document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
 
-// --- Audio Autoplay Cerdas ---
 let audioInitiated = false;
 const bgMusic = document.getElementById('bgMusic');
 
@@ -543,25 +586,20 @@ function toggleAudio(isPlaying) {
 function mulaiAudio() {
   if (!audioInitiated) {
     bgMusic.play().then(() => {
-      toggleAudio(true);
-      audioInitiated = true;
-    }).catch(() => { /* Menunggu klik user kalau browser strict */ });
+      toggleAudio(true); audioInitiated = true;
+    }).catch(() => {});
   }
 }
 
-// Play manual lewat tombol widget
 document.getElementById('musicPlayerWidget').addEventListener('click', () => {
   if (bgMusic.paused) { bgMusic.play().then(()=>toggleAudio(true)); audioInitiated=true; } 
   else { bgMusic.pause(); toggleAudio(false); }
 });
 
-// Auto-play saat scroll atau tap di mana aja
 window.addEventListener('scroll', () => { if (window.scrollY > 30) mulaiAudio(); }, { passive: true });
 document.body.addEventListener('click', mulaiAudio, { once: true });
 document.body.addEventListener('touchstart', mulaiAudio, { once: true });
 
-
-// --- Sinkronisasi Lirik Otomatis ---
 const lyricsText = document.getElementById('lyricsText');
 let currentLyricIndex = -1;
 
@@ -569,8 +607,7 @@ bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let activeIndex = -1;
   for (let i = 0; i < LYRICS.length; i++) {
-    if (currentTime >= LYRICS[i].time) activeIndex = i;
-    else break;
+    if (currentTime >= LYRICS[i].time) activeIndex = i; else break;
   }
   if (activeIndex !== currentLyricIndex && activeIndex !== -1) {
     currentLyricIndex = activeIndex;
@@ -584,45 +621,34 @@ bgMusic.addEventListener('timeupdate', () => {
   }
 });
 
-
-// --- Partikel Hati Melayang ---
 function initParticles(){
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   const hero = document.getElementById('hero');
   const emojis = ['❤️', '✨', '💖'];
   let particles = [];
-  
   function resize(){
     canvas.width = hero.clientWidth;
     canvas.height = hero.clientHeight;
     const count = Math.floor((canvas.width*canvas.height)/22000);
     particles = Array.from({length:count}, ()=>({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height,
-      r: Math.random()*12 + 10, 
-      speed: Math.random()*0.7 + 0.3,
-      emoji: emojis[Math.floor(Math.random()*emojis.length)],
-      alpha: Math.random() * 0.6 + 0.4
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+      r: Math.random()*12 + 10, speed: Math.random()*0.7 + 0.3,
+      emoji: emojis[Math.floor(Math.random()*emojis.length)], alpha: Math.random() * 0.6 + 0.4
     }));
   }
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
-      ctx.globalAlpha = p.alpha;
-      ctx.font = p.r + "px Arial";
-      ctx.fillText(p.emoji, p.x, p.y);
-      p.y -= p.speed; 
-      if(p.y < -30){ p.y = canvas.height+30; p.x = Math.random()*canvas.width; }
+      ctx.globalAlpha = p.alpha; ctx.font = p.r + "px Arial"; ctx.fillText(p.emoji, p.x, p.y);
+      p.y -= p.speed; if(p.y < -30){ p.y = canvas.height+30; p.x = Math.random()*canvas.width; }
     });
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
+    ctx.globalAlpha = 1; requestAnimationFrame(draw);
   }
   window.addEventListener('resize', resize);
   resize(); draw();
 }
 
-// --- Render Timeline & SVG ---
 function moodY(mood){ return mood==='up' ? 60 : mood==='down' ? 200 : 130; }
 
 function renderCurve(){
@@ -632,7 +658,6 @@ function renderCurve(){
   const w = 1000, pad = 30;
   const step = items.length > 1 ? (w - pad*2) / (items.length - 1) : 0;
   const pts = items.map((it,i)=>({ x: pad + step*i, y: moodY(it.mood), item: it }));
-
   let d = `M ${pts[0].x} ${pts[0].y}`;
   for(let i=0;i<pts.length-1;i++){
     const p0 = pts[i], p1 = pts[i+1];
@@ -640,135 +665,63 @@ function renderCurve(){
     d += ` C ${mx} ${p0.y}, ${mx} ${p1.y}, ${p1.x} ${p1.y}`;
   }
   let fillD = d + ` L ${pts[pts.length-1].x} 260 L ${pts[0].x} 260 Z`;
-
   let nodes = pts.map(p=>{
     const cls = p.item.milestone ? 'curve-node milestone' : 'curve-node';
     return `<circle class="${cls}" cx="${p.x}" cy="${p.y}"></circle>`;
   }).join('');
-
-  svg.innerHTML = `
-    <defs>
-      <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#c7a24a" stop-opacity="0.35"/>
-        <stop offset="100%" stop-color="#c7a24a" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    <path class="curve-fill" d="${fillD}" fill="url(#curveGrad)"></path>
-    <path class="curve-path" d="${d}"></path>
-    ${nodes}
-  `;
-  setTimeout(()=>{
-    svg.querySelector('.curve-path').classList.add('animate');
-    svg.querySelector('.curve-fill').classList.add('animate');
-  }, 100);
+  svg.innerHTML = `<defs><linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c7a24a" stop-opacity="0.35"/><stop offset="100%" stop-color="#c7a24a" stop-opacity="0"/></linearGradient></defs><path class="curve-fill" d="${fillD}" fill="url(#curveGrad)"></path><path class="curve-path" d="${d}"></path>${nodes}`;
+  setTimeout(()=>{ svg.querySelector('.curve-path').classList.add('animate'); svg.querySelector('.curve-fill').classList.add('animate'); }, 100);
 }
 
 function renderTimeline(){
   const el = document.getElementById('timelineList');
   const fImg1 = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80";
   const fImg2 = "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=300&q=80";
-
   el.innerHTML = DATA.timeline.map(it => {
-    let p1 = it.polaroid1 || fImg1;
-    let p2 = it.polaroid2 || fImg2;
+    let p1 = it.polaroid1 || fImg1; let p2 = it.polaroid2 || fImg2;
     return `
       <div class="t-item ${it.milestone ? 'milestone':''}" data-mood="${it.mood}">
         <span class="t-dot"></span>
         <div class="t-content-wrapper">
           <div class="t-text">
             ${it.milestone ? '<span class="milestone-tag">Spesial</span>' : ''}
-            <span class="t-date">${it.date}</span>
-            <h3 class="t-title">${it.title}</h3>
-            <p class="t-content">${it.content}</p>
+            <span class="t-date">${it.date}</span><h3 class="t-title">${it.title}</h3><p class="t-content">${it.content}</p>
           </div>
           <div class="t-visual">
-            <div class="polaroids">
-              <div class="polaroid p1"><img src="${p1}"></div>
-              <div class="polaroid p2"><img src="${p2}"></div>
-            </div>
+            <div class="polaroids"><div class="polaroid p1"><img src="${p1}"></div><div class="polaroid p2"><img src="${p2}"></div></div>
           </div>
         </div>
       </div>
     `;
   }).join('');
-  
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold:0.15 });
+  const obs = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold:0.15 });
   document.querySelectorAll('.t-item').forEach(i=>obs.observe(i));
   renderCurve();
 }
 
-// --- Render Gallery ---
 let sliderIndex = 0, sliderTimer;
 function renderGallery(){
   const slides = document.getElementById('slides');
   const dots = document.getElementById('dots');
-  
-  slides.innerHTML = DATA.photos.map(p => `
-    <div class="slide">
-      <img src="${p.url}">
-      ${p.caption ? `<div class="caption">${p.caption}</div>` : ''}
-    </div>
-  `).join('');
-  
+  slides.innerHTML = DATA.photos.map(p => `<div class="slide"><img src="${p.url}">${p.caption ? `<div class="caption">${p.caption}</div>` : ''}</div>`).join('');
   dots.innerHTML = DATA.photos.map((_,i)=>`<button class="dot ${i===0?'active':''}" data-i="${i}"></button>`).join('');
-  
-  function updateSlider(){
-    slides.style.transform = `translateX(-${sliderIndex*100}%)`;
-    document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===sliderIndex));
-  }
-  
-  function restartAutoplay(){
-    clearInterval(sliderTimer);
-    sliderTimer = setInterval(()=>{ sliderIndex = (sliderIndex+1)%DATA.photos.length; updateSlider(); }, 4200);
-  }
-
-  dots.querySelectorAll('.dot').forEach(d=>{
-    d.addEventListener('click', ()=>{ sliderIndex = +d.dataset.i; updateSlider(); restartAutoplay(); });
-  });
-  
-  document.getElementById('prevBtn').addEventListener('click', ()=>{
-    sliderIndex = (sliderIndex-1+DATA.photos.length)%DATA.photos.length; updateSlider(); restartAutoplay();
-  });
-  document.getElementById('nextBtn').addEventListener('click', ()=>{
-    sliderIndex = (sliderIndex+1)%DATA.photos.length; updateSlider(); restartAutoplay();
-  });
-  
+  function updateSlider(){ slides.style.transform = `translateX(-${sliderIndex*100}%)`; document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===sliderIndex)); }
+  function restartAutoplay(){ clearInterval(sliderTimer); sliderTimer = setInterval(()=>{ sliderIndex = (sliderIndex+1)%DATA.photos.length; updateSlider(); }, 4200); }
+  dots.querySelectorAll('.dot').forEach(d=>{ d.addEventListener('click', ()=>{ sliderIndex = +d.dataset.i; updateSlider(); restartAutoplay(); }); });
+  document.getElementById('prevBtn').addEventListener('click', ()=>{ sliderIndex = (sliderIndex-1+DATA.photos.length)%DATA.photos.length; updateSlider(); restartAutoplay(); });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{ sliderIndex = (sliderIndex+1)%DATA.photos.length; updateSlider(); restartAutoplay(); });
   restartAutoplay();
 }
 
-// --- Kado Rahasia (PIN Lock) ---
-const lockBtn = document.getElementById('lockBtn');
-const pinOverlay = document.getElementById('pinOverlay');
-const giftOverlay = document.getElementById('giftOverlay');
-const pinInput = document.getElementById('pinInput');
-const pinError = document.getElementById('pinError');
-
-lockBtn.addEventListener('click', ()=>{
-  pinInput.value = ''; pinError.style.display = 'none';
-  pinOverlay.classList.add('show'); pinInput.focus();
-});
-
+const lockBtn = document.getElementById('lockBtn'), pinOverlay = document.getElementById('pinOverlay'), giftOverlay = document.getElementById('giftOverlay'), pinInput = document.getElementById('pinInput'), pinError = document.getElementById('pinError');
+lockBtn.addEventListener('click', ()=>{ pinInput.value = ''; pinError.style.display = 'none'; pinOverlay.classList.add('show'); pinInput.focus(); });
 document.getElementById('pinCancel').addEventListener('click', ()=> pinOverlay.classList.remove('show'));
 document.getElementById('closeGift').addEventListener('click', ()=> giftOverlay.classList.remove('show'));
-
-document.getElementById('pinSubmit').addEventListener('click', ()=>{
-  if(pinInput.value === DATA.pinKado){
-    pinOverlay.classList.remove('show');
-    giftOverlay.classList.add('show');
-  } else {
-    pinError.style.display = 'block';
-  }
-});
+document.getElementById('pinSubmit').addEventListener('click', ()=>{ if(pinInput.value === DATA.pinKado){ pinOverlay.classList.remove('show'); giftOverlay.classList.add('show'); } else { pinError.style.display = 'block'; } });
 pinInput.addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('pinSubmit').click(); });
 
-// --- INIT ---
-initParticles();
-renderTimeline();
-renderGallery();
+initParticles(); renderTimeline(); renderGallery();
 setTimeout(()=>document.getElementById('loader').classList.add('hide'), 1500);
-
 </script>
 </body>
 </html>
