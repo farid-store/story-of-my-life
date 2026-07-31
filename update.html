@@ -1093,16 +1093,30 @@ const bgMusic = document.getElementById('bgMusic');
 
 // ---- Playlist ----
 let currentSongIndex = 0;
+let activeLyrics = []; // Variabel untuk menyimpan lirik lagu yang sedang diputar
+
 function loadSong(index, autoplay){
   if(!DATA.playlist || !DATA.playlist.length) return;
   currentSongIndex = (index + DATA.playlist.length) % DATA.playlist.length;
   const song = DATA.playlist[currentSongIndex];
   const wasPlaying = !bgMusic.paused;
   bgMusic.src = song.src;
+  
+  // Update teks judul
   const titleEl = document.getElementById('musicTitle');
   const subEl = document.getElementById('musicSub');
   if(titleEl) titleEl.textContent = song.title || "Our Song";
   if(subEl) subEl.textContent = song.artist || "Lagu Kita";
+  
+  // Update lirik ke lagu baru & reset tampilan lirik
+  activeLyrics = song.lyrics || [];
+  currentLyricIndex = -1;
+  const lyricsText = document.getElementById('lyricsText');
+  if(lyricsText) {
+    lyricsText.innerHTML = "";
+    lyricsText.classList.remove('show');
+  }
+
   if(autoplay || wasPlaying){
     bgMusic.play().then(() => toggleAudio(true)).catch(() => toggleAudio(false));
   }
@@ -1201,20 +1215,25 @@ document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
 })();
 
 // Lyrics Sync
+// Lyrics Sync
 const lyricsText = document.getElementById('lyricsText');
 let currentLyricIndex = -1;
 bgMusic.addEventListener('timeupdate', () => {
+  // Jika lagu ini tidak punya lirik, hentikan proses
+  if (!activeLyrics || activeLyrics.length === 0) return;
+
   const currentTime = bgMusic.currentTime;
   let activeIndex = -1;
-  for(let i = 0; i < LYRICS.length; i++){
-    if(currentTime >= LYRICS[i].time) activeIndex = i; else break;
+  for(let i = 0; i < activeLyrics.length; i++){
+    if(currentTime >= activeLyrics[i].time) activeIndex = i; else break;
   }
+  
   if(activeIndex !== currentLyricIndex && activeIndex !== -1){
     currentLyricIndex = activeIndex;
     lyricsText.classList.remove('show');
     setTimeout(() => {
-      if(LYRICS[activeIndex].text !== ""){
-        lyricsText.innerHTML = LYRICS[activeIndex].text;
+      if(activeLyrics[activeIndex].text !== ""){
+        lyricsText.innerHTML = activeLyrics[activeIndex].text;
         lyricsText.classList.add('show');
       }
     }, 400);
