@@ -748,7 +748,7 @@ footer .love-counter{ margin-top:0; justify-content: center; }
   <div class="timeline" id="timelineList"></div>
 </section>
 
-<!-- FILM ROLL SECTION (Dipindah ke atas sebelum surat) -->
+<!-- FILM ROLL SECTION -->
 <section class="film-section" id="filmSection">
   <div class="section-head" style="position:relative; z-index:10;">
     <span class="eyebrow">Memori Berputar</span>
@@ -1030,7 +1030,7 @@ const FILM_PHOTOS_2 = [
 ];
 
 /* =========================================================
-   4. GENERIC TYPEWRITER
+   3. GENERIC TYPEWRITER
    ========================================================= */
 function typeParagraphs(container, paragraphs, speed, onDone){
   container.innerHTML = "";
@@ -1067,7 +1067,7 @@ function typeParagraphs(container, paragraphs, speed, onDone){
 }
 
 /* =========================================================
-   5. INTRO SURAT & AUDIO LOGIC
+   4. INTRO SURAT & AUDIO LOGIC
    ========================================================= */
 const envelope = document.getElementById('envelope');
 const introReadBtn = document.getElementById('introReadBtn');
@@ -1077,9 +1077,10 @@ const introOverlay = document.getElementById('introOverlay');
 const loader = document.getElementById('loader');
 const bgMusic = document.getElementById('bgMusic');
 
-// ---- Playlist ----
+// Variabel utama di-declare di atas agar tidak terjadi error (Temporal Dead Zone)
 let currentSongIndex = 0;
 let activeLyrics = []; 
+let currentLyricIndex = -1;
 
 function loadSong(index, autoplay){
   if(!DATA.playlist || !DATA.playlist.length) return;
@@ -1097,10 +1098,10 @@ function loadSong(index, autoplay){
   // Update lirik ke lagu baru & reset tampilan lirik
   activeLyrics = song.lyrics || [];
   currentLyricIndex = -1;
-  const lyricsText = document.getElementById('lyricsText');
-  if(lyricsText) {
-    lyricsText.innerHTML = "";
-    lyricsText.classList.remove('show');
+  const lyricsEl = document.getElementById('lyricsText');
+  if(lyricsEl) {
+    lyricsEl.innerHTML = "";
+    lyricsEl.classList.remove('show');
   }
 
   if(autoplay || wasPlaying){
@@ -1110,6 +1111,7 @@ function loadSong(index, autoplay){
 function changeSong(direction){
   loadSong(currentSongIndex + direction, true);
 }
+// Load lagu pertama secara background saat pertama kali dibuka
 loadSong(0, false);
 
 let audioHasStarted = false;
@@ -1169,7 +1171,7 @@ document.getElementById('musicPlayerWidget').addEventListener('click', () => {
 });
 
 /* =========================================================
-   6. RENDER KONTEN UTAMA
+   5. RENDER KONTEN UTAMA
    ========================================================= */
 document.getElementById('eyebrowText').textContent = DATA.banner.eyebrow;
 document.getElementById('bannerTitle').innerHTML = DATA.banner.title;
@@ -1191,8 +1193,7 @@ document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
 })();
 
 // Lyrics Sync
-const lyricsText = document.getElementById('lyricsText');
-let currentLyricIndex = -1;
+const lyricsDisplay = document.getElementById('lyricsText');
 bgMusic.addEventListener('timeupdate', () => {
   if (!activeLyrics || activeLyrics.length === 0) return;
 
@@ -1204,11 +1205,11 @@ bgMusic.addEventListener('timeupdate', () => {
   
   if(activeIndex !== currentLyricIndex && activeIndex !== -1){
     currentLyricIndex = activeIndex;
-    lyricsText.classList.remove('show');
+    lyricsDisplay.classList.remove('show');
     setTimeout(() => {
       if(activeLyrics[activeIndex].text !== ""){
-        lyricsText.innerHTML = activeLyrics[activeIndex].text;
-        lyricsText.classList.add('show');
+        lyricsDisplay.innerHTML = activeLyrics[activeIndex].text;
+        lyricsDisplay.classList.add('show');
       }
     }, 400);
   }
@@ -1357,7 +1358,7 @@ document.getElementById('pinSubmit').addEventListener('click', () => { if(pinInp
 pinInput.addEventListener('keydown', e => { if(e.key === 'Enter') document.getElementById('pinSubmit').click(); });
 
 /* =========================================================
-   7. CONFETTI ENGINE
+   6. CONFETTI ENGINE
    ========================================================= */
 const confettiCanvas = document.getElementById('confettiCanvas');
 const confettiCtx = confettiCanvas.getContext('2d');
@@ -1412,7 +1413,7 @@ function runConfetti(){
 document.getElementById('surpriseBtn').addEventListener('click', () => burstConfetti(120));
 
 /* =========================================================
-   8. SCROLL PROGRESS + BACK TO TOP
+   7. SCROLL PROGRESS + BACK TO TOP
    ========================================================= */
 const scrollProgress = document.getElementById('scrollProgress');
 const backToTopBtn = document.getElementById('backToTopBtn');
@@ -1426,7 +1427,7 @@ window.addEventListener('scroll', () => {
 backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 /* =========================================================
-   9. HITUNG MUNDUR ULANG TAHUN BERIKUTNYA
+   8. HITUNG MUNDUR ULANG TAHUN BERIKUTNYA
    ========================================================= */
 (function renderCountdown(){
   const el = document.getElementById('countdownText');
@@ -1441,7 +1442,7 @@ backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior:
 })();
 
 /* =========================================================
-   10. BAGIKAN HALAMAN
+   9. BAGIKAN HALAMAN
    ========================================================= */
 const toast = document.getElementById('toast');
 function showToast(msg){
@@ -1462,7 +1463,7 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
 });
 
 /* =========================================================
-   11. SIMPAN SURAT (PRINT)
+   10. SIMPAN SURAT (PRINT)
    ========================================================= */
 document.getElementById('printLetterBtn').addEventListener('click', () => window.print());
 
