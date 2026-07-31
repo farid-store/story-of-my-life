@@ -892,13 +892,11 @@ footer .love-counter{ margin-top:0; justify-content: center; }
    ========================================================= */
 const DATA = {
   pinKado: "1212",
-  togetherSince: "2018-01-01", // ganti ke tanggal jadian kalian (YYYY-MM-DD), dipakai di counter
-  birthdayMonthDay: "09-03", // ganti ke tanggal lahir dia (MM-DD), dipakai di hitung mundur ultah
+  togetherSince: "2018-01-01", 
+  birthdayMonthDay: "09-03", 
 
   tvVideoUrl: "https://youtu.be/Rioso528cBY",
 
-  // Playlist lagu untuk music player. Tambah/ganti sesuka hati.
-  // Playlist lagu untuk music player. Tambah/ganti sesuka hati.
   playlist: [
     { 
       title: "Teh Hijau", 
@@ -906,44 +904,37 @@ const DATA = {
       src: "https://www.image2url.com/r2/default/audio/1785427205949-aedf74ad-3c22-4ddf-a40a-5def0ccb49a4.mp3",
       // Lirik lagu pertama
       lyrics: [
-  { time: 0, text: "🎵 ada yang hilang 🎵" },
-  { time: 2, text: "dari ku belakangan..." },
-  { time: 4, text: "sedang tak mudah..." },
-  { time: 8, text: "bertemu rasa senang..." },
-  { time: 10, text: "sedang ku cari" },
-  { time: 11, text: ".. yang jadi pencetusnya 🎵🎵🎵" },
-  { time: 15, text: "mungkin hilangnya" },
-  { time: 16, text: "atas siklus hidupku🎵🎵🎵" },
-  { time: 19, text: "mungkin 🎵🎵🎵" },
-  { time: 21, text: "aku selalu tak bisa" },
-  { time: 23, text: "🎵 tak bisa jatuh cinta 🎵" },
-  { time: 25, text: "membuka hati tuk apapun..." },
-  { time: 26, text: "siapapun..." },
-  { time: 27, text: "dan mungkin..." },
-  { time: 28, text: "sedang ku cari" },
-  { time: 29, text: ".. dan mungkin 🎵🎵🎵" },
-  { time: 30, text: "aku memang sedang tak bisa" },
-  { time: 32, text: "tak bisa jatuh cinta🎵🎵🎵" },
-  { time: 33, text: "membuka hati tuk apapun 🎵🎵🎵" },
-  { time: 35, text: "siapapun" }
+        { time: 0, text: "🎵 ada yang hilang 🎵" },
+        { time: 2, text: "dari ku belakangan..." },
+        { time: 4, text: "sedang tak mudah..." },
+        { time: 8, text: "bertemu rasa senang..." },
+        { time: 10, text: "sedang ku cari" },
+        { time: 11, text: ".. yang jadi pencetusnya 🎵🎵🎵" },
+        { time: 15, text: "mungkin hilangnya" },
+        { time: 16, text: "atas siklus hidupku🎵🎵🎵" },
+        { time: 19, text: "mungkin 🎵🎵🎵" },
+        { time: 21, text: "aku selalu tak bisa" },
+        { time: 23, text: "🎵 tak bisa jatuh cinta 🎵" },
+        { time: 25, text: "membuka hati tuk apapun..." },
+        { time: 26, text: "siapapun..." },
+        { time: 27, text: "dan mungkin..." },
+        { time: 28, text: "sedang ku cari" },
+        { time: 29, text: ".. dan mungkin 🎵🎵🎵" },
+        { time: 30, text: "aku memang sedang tak bisa" },
+        { time: 32, text: "tak bisa jatuh cinta🎵🎵🎵" },
+        { time: 33, text: "membuka hati tuk apapun 🎵🎵🎵" },
+        { time: 35, text: "siapapun" }
       ]
     },
     { 
       title: "18", 
-      artist: "PPertemuan Kita", 
-      src: "https://www.image2url.com/r2/default/audio/1785085282390-e556c303-cb20-4401-bd54-b0d9c2fa7f4a.mp3", // Ganti dengan link lagu keduamu
+      artist: "Pertemuan Kita", 
+      src: "https://www.image2url.com/r2/default/audio/1785085282390-e556c303-cb20-4401-bd54-b0d9c2fa7f4a.mp3", 
       // Lirik lagu kedua
       lyrics: [
         { time: 0, text: "🎵🎵" }
       ]
     }
-  ],
-
-  // (Lanjut ke banner: { eyebrow: ... dst )
-  playlist: [
-    { title: "Our Song", artist: "Lagu Kita", src: "https://www.image2url.com/r2/default/audio/1785427205949-aedf74ad-3c22-4ddf-a40a-5def0ccb49a4.mp3" },
-    { title: "Our Song", artist: "Pertemuan Pertama", src: "https://www.image2url.com/r2/default/audio/1785085282390-e556c303-cb20-4401-bd54-b0d9c2fa7f4a.mp3" }
-    
   ],
 
   banner: {
@@ -1039,11 +1030,6 @@ const FILM_PHOTOS_2 = [
 ];
 
 /* =========================================================
-   3. DATA LIRIK LAGU
-   ========================================================= */
-
-
-/* =========================================================
    4. GENERIC TYPEWRITER
    ========================================================= */
 function typeParagraphs(container, paragraphs, speed, onDone){
@@ -1081,7 +1067,7 @@ function typeParagraphs(container, paragraphs, speed, onDone){
 }
 
 /* =========================================================
-   5. INTRO SURAT & AUDIO LOGIC (UPDATED)
+   5. INTRO SURAT & AUDIO LOGIC
    ========================================================= */
 const envelope = document.getElementById('envelope');
 const introReadBtn = document.getElementById('introReadBtn');
@@ -1093,7 +1079,7 @@ const bgMusic = document.getElementById('bgMusic');
 
 // ---- Playlist ----
 let currentSongIndex = 0;
-let activeLyrics = []; // Variabel untuk menyimpan lirik lagu yang sedang diputar
+let activeLyrics = []; 
 
 function loadSong(index, autoplay){
   if(!DATA.playlist || !DATA.playlist.length) return;
@@ -1126,7 +1112,6 @@ function changeSong(direction){
 }
 loadSong(0, false);
 
-// Fungsi untuk memastikan audio jalan dengan aman dari blokir browser
 let audioHasStarted = false;
 function playAudioSecurely() {
   if (audioHasStarted) return;
@@ -1149,33 +1134,27 @@ function toggleAudio(isPlaying){
   else { vinyl.classList.remove('playing'); spectrum.classList.remove('playing'); }
 }
 
-// Interaksi 1: Klik Amplop (Coba paksa jalankan lagu disini)
 envelope.addEventListener('click', () => {
   if(envelope.classList.contains('open')) return;
   envelope.classList.add('open');
   setTimeout(() => introReadBtn.classList.add('show'), 500);
-  
-  // Panggil audio pertama kali disini agar lolos security check browser
   playAudioSecurely();
 });
 
-// Interaksi 2: Buka Surat
 introReadBtn.addEventListener('click', () => {
   letterView.classList.add('show');
   introReadBtn.style.pointerEvents = 'none';
   introReadBtn.style.opacity = '0';
-  playAudioSecurely(); // Panggil lagi jika yg pertama gagal
+  playAudioSecurely();
   typeParagraphs(document.getElementById('introTyped'), DATA.introLetter, 26, () => {
     introContinueBtn.classList.add('show');
   });
 });
 
-// Interaksi 3: Masuk ke halaman utama
 introContinueBtn.addEventListener('click', () => {
   introOverlay.classList.add('hide');
   loader.classList.add('show');
-  
-  playAudioSecurely(); // Panggil lagi sebagai pertahanan terakhir
+  playAudioSecurely(); 
 
   setTimeout(() => {
     loader.classList.remove('show');
@@ -1184,12 +1163,10 @@ introContinueBtn.addEventListener('click', () => {
   }, 1100);
 });
 
-// Widget Music Player
 document.getElementById('musicPlayerWidget').addEventListener('click', () => {
   if(bgMusic.paused){ bgMusic.play().then(() => toggleAudio(true)).catch(() => {}); }
   else { bgMusic.pause(); toggleAudio(false); }
 });
-
 
 /* =========================================================
    6. RENDER KONTEN UTAMA
@@ -1206,7 +1183,6 @@ function getEmbedUrl(url){
 }
 document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
 
-// Love counter
 (function renderLoveCounter(){
   const start = new Date(DATA.togetherSince);
   const now = new Date();
@@ -1215,11 +1191,9 @@ document.getElementById('tvIframe').src = getEmbedUrl(DATA.tvVideoUrl);
 })();
 
 // Lyrics Sync
-// Lyrics Sync
 const lyricsText = document.getElementById('lyricsText');
 let currentLyricIndex = -1;
 bgMusic.addEventListener('timeupdate', () => {
-  // Jika lagu ini tidak punya lirik, hentikan proses
   if (!activeLyrics || activeLyrics.length === 0) return;
 
   const currentTime = bgMusic.currentTime;
@@ -1240,7 +1214,6 @@ bgMusic.addEventListener('timeupdate', () => {
   }
 });
 
-// Particles
 function initParticles(){
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -1269,7 +1242,6 @@ function initParticles(){
   resize(); draw();
 }
 
-// Background Curve
 function renderCurve(){
   const svg = document.getElementById('curveSvg');
   const w = 1000, h = 120;
@@ -1289,7 +1261,6 @@ function renderCurve(){
   }, 100);
 }
 
-// Timeline
 function renderTimeline(){
   const el = document.getElementById('timelineList');
   const fImg1 = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80";
@@ -1316,7 +1287,6 @@ function renderTimeline(){
   renderCurve();
 }
 
-// Typewriter Letter
 function renderMainLetter(){
   const section = document.getElementById('letterSection');
   const obs = new IntersectionObserver((entries) => {
@@ -1332,7 +1302,6 @@ function renderMainLetter(){
   obs.observe(section);
 }
 
-// Reasons Cards
 function renderReasons(){
   const grid = document.getElementById('reasonsGrid');
   grid.innerHTML = DATA.reasons.map((r, i) => `
@@ -1351,14 +1320,12 @@ function renderReasons(){
   });
 }
 
-// Film Rolls
 function renderFilmRolls(){
   const track1 = document.getElementById('filmTrack1');
   const track2 = document.getElementById('filmTrack2');
   
   function buildTrack(photos, container) {
     let html = photos.map(src => `<div class="film-frame"><img src="${src}" loading="lazy" alt="Kenangan kita"></div>`).join('');
-    // Gandakan html agar animasi perulangan (infinite loop) tidak pernah putus
     container.innerHTML = html + html; 
   }
   
@@ -1368,7 +1335,6 @@ function renderFilmRolls(){
   }
 }
 
-// Gallery Slider
 let sliderIndex = 0, sliderTimer;
 function renderGallery(){
   const slides = document.getElementById('slides');
@@ -1383,7 +1349,6 @@ function renderGallery(){
   restartAutoplay();
 }
 
-// Modals
 const lockBtn = document.getElementById('lockBtn'), pinOverlay = document.getElementById('pinOverlay'), giftOverlay = document.getElementById('giftOverlay'), pinInput = document.getElementById('pinInput'), pinError = document.getElementById('pinError');
 lockBtn.addEventListener('click', () => { pinInput.value = ''; pinError.style.display = 'none'; pinOverlay.classList.add('show'); pinInput.focus(); });
 document.getElementById('pinCancel').addEventListener('click', () => pinOverlay.classList.remove('show'));
@@ -1493,7 +1458,6 @@ document.getElementById('shareBtn').addEventListener('click', async () => {
       showToast('Tautan disalin! Kirim ke dia 💌');
     }
   } catch(err) {
-    // Dibatalkan atau gagal, tidak apa-apa
   }
 });
 
@@ -1521,7 +1485,6 @@ document.getElementById('printLetterBtn').addEventListener('click', () => window
   });
 })();
 
-// Initialize all features
 initParticles();
 renderTimeline();
 renderMainLetter();
