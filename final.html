@@ -691,12 +691,10 @@ footer .love-counter{ margin-top:0; justify-content: center; }
 .gacha-hint{ font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--ink-faint); max-width:220px; }
 
 .gacha-cards{
-  width:100%; display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:16px;
+  width:100%; display:flex; justify-content:center;
 }
-@media (max-width:900px){ .gacha-cards{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
-@media (max-width:560px){ .gacha-cards{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
 
-.gacha-card{ perspective:1200px; aspect-ratio:3/4.3; }
+.gacha-card{ perspective:1200px; aspect-ratio:3/4.3; width:100%; max-width:260px; }
 .gacha-card-inner{
   position:relative; width:100%; height:100%; transform-style:preserve-3d;
   transition:transform .7s cubic-bezier(.2,.7,.2,1); transform:rotateY(0deg);
@@ -892,16 +890,16 @@ footer .love-counter{ margin-top:0; justify-content: center; }
   <div class="section-head">
     <span class="eyebrow">Kejutan Buat Kamu</span>
     <h2>Tarik Kartu Keberuntungan</h2>
-    <p>5 kartu misteri bakal keluar. Ketuk mesinnya, tunggu kartunya kebuka, terus klik kartu mana pun yang kamu mau buat ambil hadiahnya.</p>
+    <p>Satu kartu misteri bakal keluar. Ketuk mesinnya, tunggu kartunya kebuka, terus klik kartunya buat ambil hadiahnya.</p>
   </div>
   <div class="gacha-wrap">
     <div class="gacha-machine">
       <div class="gacha-glass"><span class="gacha-orb" id="gachaOrb">🎁</span></div>
-      <button class="gacha-lever" id="gachaPullBtn" type="button">Tarik 5 Kartu ✦</button>
-      <p class="gacha-hint" id="gachaHint">Sekali tarik, langsung dapet 5 pilihan hadiah.</p>
+      <button class="gacha-lever" id="gachaPullBtn" type="button">Tarik Kartu ✦</button>
+      <p class="gacha-hint" id="gachaHint">Sekali tarik, dapet 1 kartu kejutan.</p>
     </div>
     <div class="gacha-cards" id="gachaCards">
-      <p class="gacha-empty">Kartunya masih tidur. Tarik mesinnya buat bangunin mereka!</p>
+      <p class="gacha-empty">Kartunya masih tidur. Tarik mesinnya buat bangunin dia!</p>
     </div>
   </div>
 </section>
@@ -991,7 +989,7 @@ footer .love-counter{ margin-top:0; justify-content: center; }
     <h3>Hai, Sahabatku! 🎈</h3>
     <p>Selamat ulang tahun ya! Terima kasih udah bertahan sejauh ini, melewati banyak hal, dan tetap jadi orang paling kuat sekaligus paling hangat yang aku kenal.</p>
     <p>Semoga di usiamu yang baru ini, segala sedihmu berkurang, bahagiamu bertambah, dan semoga aku tetap jadi salah satu alasan kamu tersenyum hari ini.</p>
-    <p>P.S. Scroll ke bawah sampai ketemu mesin kartu keberuntungan — tarik 5 kartu, terus pilih hadiah yang kamu mau. Serius, itu beneran bisa kamu klaim. 🎰</p>
+    <p>P.S. Scroll ke bawah sampai ketemu mesin kartu keberuntungan — tarik kartunya, terus klik buat ambil hadiah kejutannya. Serius, itu beneran bisa kamu klaim. 🎰</p>
     <div class="signature">Dari,<br>Sahabat yang Paling Sayang Kamu</div>
     <button class="btn ghost" id="closeGift" style="margin-top:30px;">Tutup Surat</button>
   </div>
@@ -1505,7 +1503,7 @@ function shuffleArray(arr){
 }
 
 function pickGachaHand(){
-  const count = Math.min(5, GACHA_POOL.length);
+  const count = Math.min(1, GACHA_POOL.length);
   return shuffleArray(GACHA_POOL).slice(0, count);
 }
 
@@ -1517,7 +1515,7 @@ function buildGachaCard(item, index){
       <div class="gacha-card-inner">
         <div class="gacha-face gacha-front">
           <span class="q">?</span>
-          <span class="slot-label">Kartu ${index + 1}</span>
+          <span class="slot-label">Kartu Misteri</span>
         </div>
         <a class="gacha-face gacha-back" href="${item.link || '#'}" target="_blank" rel="noopener" aria-label="Ambil hadiah ${safeName}">
           <img src="${item.img}" alt="${safeName}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=400&q=80'">
